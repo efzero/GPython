@@ -18,13 +18,10 @@
 
 }
 
-
-
-
 </style>
 <title> this fucking library</title>
 <link rel = "stylesheet" type = "text/css" href = "/stylesheets/joint.css" />
-
+<link rel = "stylesheet" type = "text/css" href = "/stylesheets/mycss.css"/>
 <script src = "/javascripts/jquery.min.js"></script>
 <script src = "/javascripts/lodash.min.js"></script>
 <script src = "/javascripts/backbone-min.js"></script>
@@ -40,148 +37,54 @@
 
 
 <body>
-<div>
-<form action = "/scatterRegression_0.png" method = "GET">
 
-
-  <input type ="submit" name = "why" value = "show the first regression result"/>
-
-</form>
-
-
-<form action = "/scatterRegression_1.png" method = "GET">
-
-  <input type ="submit" name = "why" value = "show the second regression result"/>
-
-</form>
-
-<form name = "python" method = "POST">
-  <input type = "text" name = "what"/>
-  <input type = "submit"/>
-</form>
-
-<form method = "POST" action ="/file_upload" enctype="multipart/form-data">
-  <input type = "file" name = "file" size = "50" />
-  <br />
-  <input type = "submit" value = "Upload File"/>
-</form>
-
-
-
-
-
-
-
-
+<div class = "head">
+  <div class = "fonts">
+    <p> This is an interactive graphing tool for running Python scripts and analyzing data </p>
+  </div>
+  <!-- <p> This is an interactive graphing tool for running Python scripts and analyzing data </p> -->
 </div>
 
 
 
+<div class = "container">
+
+
+  <div>
+    <form action = "/scatterRegression_0.png" method = "GET">
+
+
+      <input type ="submit" name = "why" value = "show the first regression result"/>
+
+    </form>
+
+
+    <form action = "/scatterRegression_1.png" method = "GET">
+
+      <input type ="submit" name = "why" value = "show the second regression result"/>
+
+    </form>
+
+    <form name = "python" method = "POST">
+      <input type = "submit" value = "Run"/>
+    </form>
+
+    <form method = "POST" action ="/file_upload" enctype="multipart/form-data">
+      <input type = "file" name = "file" size = "50" />
+      <br />
+      <input type = "submit" value = "Upload File"/>
+    </form>
+  </div>
 
 
 
-<div id="paper"></div>
+
+
+<div id="paper" class = "paper"></div>
 <div id = "myholder"></div>
 
 
 <script>
-
-
-// var mydata = prompt("please enter the name1")
-//
-//
-// var graph = new joint.dia.Graph;
-//
-//     var paper = new joint.dia.Paper({
-//         el: $('#myholder'),
-//         width: 600,
-//         height: 200,
-//         model: graph,
-//         gridSize: 1
-//     });
-//
-//     var rect = new joint.shapes.basic.Rect({
-//         position: { x: 100, y: 30 },
-//         size: { width: 100, height: 30 },
-//         attrs: { rect: { fill: 'blue' }, text: { text: mydata, fill: 'white' } }
-//     });
-//
-//     var rect2 = rect.clone();
-//     rect2.translate(300);
-//
-//     var link = new joint.dia.Link({
-//         source: { id: rect.id },
-//         target: { id: rect2.id }
-//     });
-//
-//     graph.addCells([rect, rect2, link]);
-//     paper.on('cell:pointerdown', function(evt, x,y ){
-//       console.log("wtf");
-//     });
-
-
-
-
-
-joint.shapes.tm = {};
-joint.shapes.tm.toolElement = joint.shapes.basic.Generic.extend({
-
-    toolMarkup: ['<g class="element-tools">',
-        '<g class="element-tool-remove"><circle fill="red" r="11"/>',
-        '<path transform="scale(.8) translate(-16, -16)" d="M24.778,21.419 19.276,15.917 24.777,10.415 21.949,7.585 16.447,13.087 10.945,7.585 8.117,10.415 13.618,15.917 8.116,21.419 10.946,24.248 16.447,18.746 21.948,24.248z"/>',
-        '<title>Remove this element from the model</title>',
-        '</g>',
-        '</g>'].join(''),
-
-    defaults: joint.util.deepSupplement({
-        attrs: {
-            text: { 'font-weight': 400, 'font-size': 'small', 'text-anchor': 'middle', 'ref-x': .5, 'ref-y': .5, 'y-alignment': 'middle' },
-        },
-    }, joint.shapes.basic.Generic.prototype.defaults)
-
-});
-
-joint.shapes.tm.ToolElementView = joint.dia.ElementView.extend({
-    initialize: function() {
-        joint.dia.ElementView.prototype.initialize.apply(this, arguments);
-    },
-    render: function () {
-        joint.dia.ElementView.prototype.render.apply(this, arguments);
-        this.renderTools();
-        this.update();
-        return this;
-    },
-    renderTools: function () {
-        var toolMarkup = this.model.toolMarkup || this.model.get('toolMarkup');
-        if (toolMarkup) {
-            var nodes = V(toolMarkup);
-            V(this.el).append(nodes);
-        }
-        return this;
-    },
-    pointerdown: function (evt, x, y) {
-        this._dx = x;
-        this._dy = y;
-        this._action = '';
-        var className = evt.target.parentNode.getAttribute('class');
-        switch (className) {
-            case 'element-tool-remove':
-                console.log('removing element');
-                this.model.remove();
-                return;
-                break;
-            default:
-        }
-        joint.dia.CellView.prototype.pointerclick.apply(this, arguments);
-    }
-});
-
-
-
-
-
-
-
 
 
 
@@ -191,8 +94,11 @@ joint.shapes.tm.ToolElementView = joint.dia.ElementView.extend({
 var graph = new joint.dia.Graph;
 var paper = new joint.dia.Paper({
     el: $('#paper'),
-    width: 1200, height: 1200, gridSize: 1,
+    width: 800, height: 800, gridSize: 1,
     model: graph,
+    background: {
+       color: '#e6e6e6'
+    },
     defaultLink: new joint.dia.Link({
         attrs: { '.marker-target': { d: 'M 10 0 L 0 5 L 10 10 z' } }
     }),
@@ -204,51 +110,21 @@ var paper = new joint.dia.Paper({
         // Prevent linking to input ports.
         return magnetT && magnetT.getAttribute('type') === 'input';
     },
-    validateMagnet: function(cellView, magnet) {
-        // Note that this is the default behaviour. Just showing it here for reference.
-        // Disable linking interaction for magnets marked as passive (see below `.inPorts circle`).
-        return magnet.getAttribute('magnet') !== 'passive';
+    // validateMagnet: function(cellView, magnet) {
+    //     // Note that this is the default behaviour. Just showing it here for reference.
+    //     // Disable linking interaction for magnets marked as passive (see below `.inPorts circle`).
+    //     return magnet.getAttribute('magnet') !== 'passive';
+    // }
+    validateConnection: function(sourceView, sourceMagnet, targetView, targetMagnet) {
+
+        return sourceMagnet != targetMagnet;
     }
 });
 
-var m1 = new joint.shapes.devs.Model({
-    position: { x: 50, y: 50 },
-    size: { width: 90, height: 90 },
-    // inPorts: ['in1','in2'],
-    outPorts: ['out'],
-    attrs: {
-        '.label': { text: 'Input Data', 'ref-x': .4, 'ref-y': .2 },
-        rect: { fill: '#2ECC71' },
-        // '.inPorts circle': { fill: '#16A085', magnet: 'passive', type: 'input' },
-        '.outPorts circle': { fill: '#E74C3C', type: 'output' }
-    }
-});
-graph.addCell(m1);
-
-// var m2 = m1.clone();
-// m2.translate(300, 0);
-// graph.addCell(m2);
-// m2.attr('.label/text', 'Model 2');
-
-var m3 = new joint.shapes.devs.Model({
-  position:{x:250, y:300},
-  size: {width: 120, height: 100},
-  inPorts: ['in1'],
-  outPorts: ['out1', 'out2'],
-  attrs: {
-    '.label': {text: 'to dataframe', 'ref-x':.4, 'ref-y': .2},
-    rect: {fill: 'green'},
-    '.inPorts circle': { fill: '#16A085', magnet: 'passive', type: 'input' },
-    '.outPorts circle': { fill: '#E74C3C', type: 'output' }
-
-
-  }
-});
-m3.translate(0,100);
-graph.addCell(m3);
 
 paper.on('blank:pointerdown', function(element, ev, x,y){
-  const name  = prompt("please enter the name of the node")
+  const name  = prompt("please enter the name of the node");
+  document.python.action = name;
   console.log("had found");
   var cell = new joint.shapes.devs.Model({
     position:{x:250, y:300},
@@ -258,7 +134,7 @@ paper.on('blank:pointerdown', function(element, ev, x,y){
     attrs: {
       '.label': {text: name, 'ref-x':.4, 'ref-y': .2},
       rect: {fill: 'green'},
-      '.inPorts circle': { fill: '#16A085', magnet: 'passive', type: 'input' },
+      '.inPorts circle': { fill: '#16A085', type: 'input' },
       '.outPorts circle': { fill: '#E74C3C', type: 'output' }
     }
   });
@@ -276,231 +152,20 @@ paper.on('cell:pointerclick', function(element, ev, x,y){
 });
 
 
+paper.on('cell:contextmenu', function(element, ev, x, y){
+  var name = prompt("please enter the link name");
+})
 
 
-
-
-
-
-
-
-
-
-
-
-
-// var graph = new joint.dia.Graph;
-// var paper = new joint.dia.Paper({
-//     el: $('#myholder'),
-//     width: 650,
-//     height: 400,
-//     model: graph,
-//     gridSize: 1
-// });
-// var rect = new joint.shapes.basic.Rect({
-//     position: { x: 100, y: 30 },
-//     size: { width: 100, height: 30 },
-//     attrs: { rect: { fill: 'blue' }, text: { text: 'my box', fill: 'white' } }
-// });
-// var rect2 = rect.clone();
-// rect2.translate(300);
-// var rect3 = rect.clone();
-// rect3.translate(300, 250);
-// var link = new joint.dia.Link({
-//     source: { id: rect.id },
-//     target: { id: rect2.id }
-// });
-// var link2 = new joint.dia.Link({
-//     source: { id: rect2.id },
-//     target: { id: rect3.id }
-// });
-// graph.addCells([rect, rect2, rect3, link, link2]);
-//
-// var graph = new joint.dia.Graph;
-//
-// var paper = new joint.dia.Paper({
-//
-//     el: document.getElementById('paper'),
-//     width: 800,
-//     height: 400,
-//     gridSize: 1,
-//     model: graph,
-//     snapLinks: true,
-//     linkPinning: false,
-//     embeddingMode: true,
-//     highlighting: {
-//         'default': {
-//             name: 'stroke',
-//             options: {
-//                 padding: 6
-//             }
-//         },
-//         'embedding': {
-//             name: 'addClass',
-//             options: {
-//                 className: 'highlighted-parent'
-//             }
-//         }
-//     },
-//
-//     validateEmbedding: function(childView, parentView) {
-//
-//         return parentView.model instanceof joint.shapes.devs.Coupled;
-//     },
-//
-//     validateConnection: function(sourceView, sourceMagnet, targetView, targetMagnet) {
-//
-//         return sourceMagnet != targetMagnet;
-//     }
-// });
-//
-// var connect = function(source, sourcePort, target, targetPort) {
-//
-//     var link = new joint.shapes.devs.Link({
-//         source: {
-//             id: source.id,
-//             port: sourcePort
-//         },
-//         target: {
-//             id: target.id,
-//             port: targetPort
-//         }
-//     });
-//
-//     link.addTo(graph).reparent();
-// };
-//
-// var c1 = new joint.shapes.devs.Coupled({
-//
-//     position: {
-//         x: 230,
-//         y: 50
-//     },
-//     size: {
-//         width: 300,
-//         height: 300
-//     }
-// });
-//
-// c1.set('inPorts', ['in']);
-// c1.set('outPorts', ['out 1', 'out 2']);
-//
-// var a1 = new joint.shapes.devs.Atomic({
-//
-//     position: {
-//         x: 360,
-//         y: 260
-//     },
-//     inPorts: ['xy'],
-//     outPorts: ['x', 'y']
-// });
-//
-// var a2 = new joint.shapes.devs.Atomic({
-//
-//     position: {
-//         x: 50,
-//         y: 160
-//     },
-//     outPorts: ['out']
-// });
-//
-// var a3 = new joint.shapes.devs.Atomic({
-//
-//     position: {
-//         x: 650,
-//         y: 50
-//     },
-//     size: {
-//         width: 100,
-//         height: 300
-//     },
-//     inPorts: ['a', 'b']
-// });
-//
-// graph.addCells([c1, a1, a2, a3]);
-//
-// c1.embed(a1);
-//
-// connect(a2, 'out', c1, 'in');
-// connect(c1, 'in', a1, 'xy');
-// connect(a1, 'x', c1, 'out 1');
-// connect(a1, 'y', c1, 'out 2');
-// connect(c1, 'out 1', a3, 'a');
-// connect(c1, 'out 2', a3, 'b');
-//
-// /* rounded corners */
-//
-// _.each([c1, a1, a2, a3], function(element) {
-//
-//     element.attr({
-//         '.body': {
-//             'rx': 6,
-//             'ry': 6
-//         }
-//     });
-// });
 
 </script>
 
+</div>
 
-
-
-<!--
-
-
-<div id = "paper-constraint-move-to-circle"></div>
-<script>
-var constraint = g.ellipse(g.point(200, 150), 100, 80);
-
-    var ConstraintElementView = joint.dia.ElementView.extend({
-
-        pointerdown: function(evt, x, y) {
-
-            var position = this.model.get('position');
-            var size = this.model.get('size');
-            var center = g.rect(position.x, position.y, size.width, size.height).center();
-            var intersection = constraint.intersectionWithLineFromCenterToPoint(center);
-            joint.dia.ElementView.prototype.pointerdown.apply(this, [evt, intersection.x, intersection.y]);
-        },
-        pointermove: function(evt, x, y) {
-
-            var intersection = constraint.intersectionWithLineFromCenterToPoint(g.point(x, y));
-            joint.dia.ElementView.prototype.pointermove.apply(this, [evt, intersection.x, intersection.y]);
-        }
-    });
-
-    var graph = new joint.dia.Graph;
-    var paper = new joint.dia.Paper({
-
-        el: $('#paper-constraint-move-to-circle'),
-        width: 450,
-        height: 300,
-        gridSize: 1,
-        model: graph,
-        elementView: ConstraintElementView
-    });
-
-    var orbit = V('<ellipse/>');
-    orbit.attr({
-        cx: constraint.x, cy: constraint.y, rx: constraint.a, ry: constraint.b,
-        fill: '#ECF0F1', stroke: '#34495E', 'stroke-dasharray': [2, 2]
-    });
-    V(paper.viewport).append(orbit);
-
-    var earth = new joint.shapes.basic.Circle({
-        position: constraint.intersectionWithLineFromCenterToPoint(g.point(100, 100)).offset(-20, -20),
-        size: { width: 40, height: 40 },
-        attrs: {
-            text: { text: 'earth', 'font-size': 12, fill: 'white', style: { 'text-shadow': '1px 1px 1px black' } },
-            circle: { fill: '#2ECC71', stroke: '#27AE60', 'stroke-width': 1 }
-        },
-        name: 'earth'
-    });
-    graph.addCell(earth);
-    earth.on('change:position', function(element) {
-    console.log(element.id, ':', element.get('position'));
-}); -->
-
+<div class = "footer">
+    <p> Author: Bowen Song, Jiayin Lu     Special Thanks: Dr.Kind </p>
+    <p> We are math students from UIUC </p>
+</div>
 
 
 
@@ -509,61 +174,4 @@ var constraint = g.ellipse(g.point(200, 150), 100, 80);
 </body>
 
 
-
-
-
-
-
-
-
-
-
 </html>
-
-
-
-
-<!-- <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>JointJS HTML Elements</title>
-
-  <link rel="stylesheet" type="text/css" href="css/joint.min.css" />
-  <script src="js/jquery.min.js"></script>
-  <script src="js/lodash.min.js"></script>
-  <script src="js/backbone-min.js"></script>
-  <script src="js/joint.min.js"></script>
-</head>
-<body>
-<div id="myholder"></div> -->
-<!-- <script type="text/javascript">
-  var graph = new joint.dia.Graph;
-  var paper = new joint.dia.Paper({
-      el: $('#myholder'),
-      width: 650,
-      height: 400,
-      model: graph,
-      gridSize: 1
-  });
-  var rect = new joint.shapes.basic.Rect({
-      position: { x: 100, y: 30 },
-      size: { width: 100, height: 30 },
-      attrs: { rect: { fill: 'blue' }, text: { text: 'my box', fill: 'white' } }
-  });
-  var rect2 = rect.clone();
-  rect2.translate(300);
-  var rect3 = rect.clone();
-  rect3.translate(300, 250);
-  var link = new joint.dia.Link({
-      source: { id: rect.id },
-      target: { id: rect2.id }
-  });
-  var link2 = new joint.dia.Link({
-      source: { id: rect2.id },
-      target: { id: rect3.id }
-  });
-  graph.addCells([rect, rect2, rect3, link, link2]);
-</script> -->
-<!-- </body>
-</html> -->
