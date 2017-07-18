@@ -51,15 +51,26 @@ router.post('/plot', function(req, res){
 })
 
 router.post('/index', function(req, res){
-  console.log(req.body);
-  res.end(JSON.stringify(req.body));
+  // console.log(req.body);
+  var j = req.body['JSON file'];
+  var thepath;
+  let path_ = url.parse(req.url).pathname;
+  path_ = path_.substring(1);
+  thepath = path.resolve('./public/'+'flowAssistant.py');
+  // console.log(thepath);
+  let dataString = '';
+  var py = spawn('python3',['-u', thepath]);
+  py.stdin.write(j);
+  py.stdin.end();
+  py.stdout.on('data', function(data){
+    dataString += data.toString();
+  })
+  py.stdout.on('end', function(){
+    console.log(dataString);
+    res.render('index2',{output:dataString});
+  })
 
 })
-
-router.post('/show', function(req, res){
-  consolelog(req.body);
-})
-
 
 
 module.exports = router;

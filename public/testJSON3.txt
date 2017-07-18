@@ -1,0 +1,1 @@
+{"columns": ["ad", "ad_impressions", "cpm_cost_per_ad", "cost"], "data": [{"row": ["CP_CARS10_LR_774470", "966", "6.002019", "5.797950"]}], "report_name": "DAILY", "result": {"code": "OK", "msg": ""}, "row_count": 1, "total": ["966", "6.002019", "5.797950"]}
