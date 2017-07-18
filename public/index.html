@@ -49,6 +49,7 @@
 
 <div class = "container">
 
+  <div class = "col">
 
   <div class = "col1">
     <form action = "/scatterRegression_0.png" method = "GET">
@@ -81,6 +82,10 @@
     </form>
 
   </div>
+  <div class = "col2">
+    <p>HelloWorld</p>
+  </div>
+</div>
 <script>
   function changeval(){
     var a = prompt("enter the link name");
@@ -100,7 +105,7 @@
 
 
 
-<div id="paper" class = "paper"></div>
+<div id="paper" class = "paper">
 <div id = "myholder"></div>
 
 <script>
@@ -109,7 +114,7 @@
 var graph = new joint.dia.Graph;
 var paper = new joint.dia.Paper({
     el: $('#paper'),
-    width: 800, height: 800, gridSize: 1,
+    width: 1100, height: 800, gridSize: 1,
     model: graph,
     background: {
        color: '#e6e6e6'
@@ -175,6 +180,11 @@ paper.on('cell:pointerclick', function(element, ev, x,y){
   }
 });
 
+paper.on('cell:contextmenu', function(element, ev, x, y){
+  var cell = element.model;
+  element.remove();
+})
+
 
 function savejson(){
   console.log(graph);
@@ -199,7 +209,8 @@ function savejson(){
 </div>
 
 <div class = "footer">
-    <p> Author: Bowen Song, Jiayin Lu     Special Thanks: Dr.Kind </p>
+    <p> Special Thanks: Dr. Matias Carrasco Kind </p>
+    <p> Author: Bowen Song, Jiayin Lu </p>
     <p> We are math students from UIUC </p>
 </div>
 
