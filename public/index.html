@@ -42,7 +42,7 @@
   <div class = "fonts">
     <p> This is an interactive graphing tool for running Python scripts and analyzing data </p>
   </div>
-  <!-- <p> This is an interactive graphing tool for running Python scripts and analyzing data </p> -->
+
 </div>
 
 
@@ -50,7 +50,7 @@
 <div class = "container">
 
 
-  <div>
+  <div class = "col1">
     <form action = "/scatterRegression_0.png" method = "GET">
 
 
@@ -74,8 +74,28 @@
       <br />
       <input type = "submit" value = "Upload File"/>
     </form>
-  </div>
 
+    <form action="/index" method="POST" name = "hello" onsubmit="savejson();">
+      Paste your JSON file here: <input type="text" id = "hh" name = "JSON file"/>
+      <input type = "submit" name = "Run" value = "Run"/>
+    </form>
+
+  </div>
+<script>
+  function changeval(){
+    var a = prompt("enter the link name");
+    document.getElementById('links').value = a;
+    console.log(document.getElementById('links').value);
+
+  }
+
+</script>
+  <!-- <div class = "col2">
+    <form name = 'theform'>
+      <input type = "text" id = "links" value = "i am a link" name = 'hehe'/>
+    </form>
+    <button onclick = "changeval()" >change link name</button>
+  </div> -->
 
 
 
@@ -83,12 +103,7 @@
 <div id="paper" class = "paper"></div>
 <div id = "myholder"></div>
 
-
 <script>
-
-
-
-
 
 
 var graph = new joint.dia.Graph;
@@ -100,8 +115,10 @@ var paper = new joint.dia.Paper({
        color: '#e6e6e6'
     },
     defaultLink: new joint.dia.Link({
-        attrs: { '.marker-target': { d: 'M 10 0 L 0 5 L 10 10 z' } }
-    }),
+        attrs: { '.marker-target': { d: 'M 10 0 L 0 5 L 10 10 z' }},
+        labels: [{ position: .5, attrs: {
+            text: { text: "default"}}}],
+        }),
     validateConnection: function(cellViewS, magnetS, cellViewT, magnetT, end, linkView) {
         // Prevent linking from input ports.
         if (magnetS && magnetS.getAttribute('type') === 'input') return false;
@@ -122,7 +139,7 @@ var paper = new joint.dia.Paper({
 });
 
 
-paper.on('blank:pointerdown', function(element, ev, x,y){
+paper.on('blank:pointerclick', function(element, ev, x,y){
   const name  = prompt("please enter the name of the node");
   document.python.action = name;
   console.log("had found");
@@ -145,16 +162,35 @@ paper.on('blank:pointerdown', function(element, ev, x,y){
 });
 
 paper.on('cell:pointerclick', function(element, ev, x,y){
+
   var cell = element.model;
-  const string = cell.prop('attrs')['.label'].text;
-  document.python.action = string;
-  document.python.submit();
+  if (!cell.isLink){
+    const string = cell.prop('attrs')['.label'].text;
+    document.python.action = string;
+    document.python.submit();
+  }
+  else {
+    var text2 = prompt("please enter the link's name")
+    cell.prop('labels/0/attrs/text/text', text2);
+  }
 });
 
 
-paper.on('cell:contextmenu', function(element, ev, x, y){
-  var name = prompt("please enter the link name");
-})
+function savejson(){
+  console.log(graph);
+  var jSon = JSON.stringify(graph);
+  console.log(jSon);
+  document.getElementById('hh').value = jSon;
+  // $.ajax({
+  //   type: "POST",
+  //   dataType: "json",
+  //   url: "/index",
+  //   data:jSon,
+  //   error: function(xhr, desc, err){
+  //     alert("error");
+  //   }
+  // });
+}
 
 
 

@@ -50,6 +50,12 @@ router.post('/plot', function(req, res){
   runregression('wanttoplot.py', req, res);
 })
 
+router.post('/index', function(req, res){
+  console.log(req.body);
+  res.end(JSON.stringify(req.body));
+
+})
+
 
 
 module.exports = router;
