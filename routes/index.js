@@ -6,9 +6,9 @@ var spawn = require('child_process').spawn;
 var url = require('url')
 
 /* GET home page. */
-// router.get('/', function(req, res) {
-//   res.render('index', { title: 'Express' });
-// });
+router.get('/loha', function(req, res) {
+  res.render('index2', { t: 'Express' });
+});
 //
 // router.get('/run', function(req, res){
 //   res.sendfile('index.html');
@@ -54,6 +54,10 @@ router.post('/index', function(req, res){
   console.log(req.body);
   res.end(JSON.stringify(req.body));
 
+})
+
+router.post('/show', function(req, res){
+  consolelog(req.body);
 })
 
 
