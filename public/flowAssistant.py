@@ -22,7 +22,6 @@ def read_in():
 
 
 def main():
-
     data = csvDF('mydata.csv')
     text = read_in()
     text['cells'][0]['ports']['groups']['out']['attrs']['.port-body']['magnet']="shabi"
@@ -36,6 +35,8 @@ def main():
     groupedObj = list(filter(lambda d: '.uml-class-box-rect' in d['attrs'], text['cells']))
     pointer = list(filter(lambda d: d['type'] == 'link', text['cells']))
     idDict = {}
+    # print(singelObj)
+    # print(data)
     def IDmatchOBJ(objName):
         idDict[list(filter(lambda d: d['attrs']['.label']['text'] == objName, singelObj))[0]['id']] = dataDict[objName]
 
@@ -54,7 +55,7 @@ def main():
         if pointer[i]['labels'][0]['attrs']['text']['text'] == 'summary':
             idDict[pointer[i]['target']['id']] = summary_stat(idDict[pointer[i]['source']['id']])
             print (idDict[pointer[i]['target']['id']])
-        
+
 
 
             # if pointer[i]['labels'][0]['attrs']['text']['text'] == 'regression':

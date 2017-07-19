@@ -67,7 +67,11 @@ router.post('/index', function(req, res){
   })
   py.stdout.on('end', function(){
     console.log(dataString);
-    res.render('index2',{output:dataString});
+    // res.end(j);
+    if (dataString != '')
+      res.render('index2',{output:dataString,path3:'/images/corrHeatmap.png' });
+    else
+      res.render('index2', {output: 'NOTHING!'});
   })
 
 })

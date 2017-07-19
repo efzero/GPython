@@ -104,9 +104,9 @@ def corr(df, outputForm):
         return None
     else:
         return None
-
-
-
+# 
+#
+#
 # '''
 # plt.figure(2)
 # plt.subplot()
@@ -122,8 +122,8 @@ def corr(df, outputForm):
 # #Secelect the first column data
 # x.ix[:,0]
 # '''
-
-
+#
+#
 # #Testing Regression functions
 # df = csvDF('mydata.csv')
 # #Inspect the first five lines of the data
@@ -140,24 +140,24 @@ def corr(df, outputForm):
 # If want to use the trained model to predict y using some new dataframe x2, can use
 # results.predict(x2)
 # '''
-
+#
 # #Testing Summary_stat for columns in a dataframe
 # summary_stat(x)
-
+#
 # '''Also, maybe make one for dummy variables
 #     And consider plots with y and x1, x2, x3... etc'''
-
+#
 # regPlot (y, x, results)
-
-
+#
+#
 # #Testing correlation
 # newDF = pd.concat([y, x], axis=1)
-
+#
 # newDF.head()
 # newDF.columns
 # len(newDF.columns)
-
-
+#
+#
 # '''
 # corr = newDF.corr()
 # corr.ix[1, 0]
@@ -178,9 +178,9 @@ def corr(df, outputForm):
 # fig.set_size_inches(10, 5)
 # plt.show()
 # '''
-
+#
 # corr(newDF, 'm')
-
+#
 # corr(newDF, 'h')
-
+#
 # corr(newDF, 'mh')
