@@ -77,4 +77,14 @@ router.post('/index', function(req, res){
 })
 
 
+router.post('/shishi', function(req, res){
+  let r = req.body;
+  let c = req;
+  console.log(r);
+  res.send('asdf'+JSON.stringify(r));
+
+
+})
+
+
 module.exports = router;

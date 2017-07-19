@@ -199,8 +199,9 @@ html
             | Paste your JSON file here:
             input#hh(type='text', name='JSON file')
             input(type='submit', name='Run', value='Run')
+            aaaaa Click on the paper below to create a cell, right click to delete the cell. Click Run to run your graph.
         .col2
-          span The Results Goes Here
+          span(id = 'dashabi') The Results Goes Here
       script.
         function changeval(){
         var a = prompt("enter the link name");
@@ -305,10 +306,33 @@ html
             //   }
             // });
             }
+
+            function gJ(){
+              var j = JSON.stringify(graph);
+              console.log(j);
+              console.log(typeof(j));
+              var str = "hello, my name is Bowen";
+              $.ajax({
+                type:'POST',
+                //- contentType: 'string',
+                dataType:'text',
+                url:'/shishi',
+                data: {'haha':j},
+                success :function(msg){
+                  console.log(msg);
+                  alert(JSON.stringify(msg));
+                  $('#dashabi').text(msg);
+                }
+                
+              });
+            }
       .col4
         p #{output}
         img(src = path3 width = '500' height = '500')
+
       .footer
+        form(action = "javascript:gJ();")
+          input(type ="submit")
         p  Special Thanks: Dr. Matias Carrasco Kind
         p  Authors: Bowen Song, Jiayin Lu
         p  We are math students from UIUC
