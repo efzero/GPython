@@ -9,7 +9,7 @@ html
       border-top: 2px solid black;
       border-bottom: 2px solid black;
       }
-    title
+    title GPython
     link(rel='stylesheet', type='text/css', href='/stylesheets/joint.css')
     link(rel='stylesheet', type='text/css', href='/stylesheets/mycss.css')
     script(src='/javascripts/jquery.min.js')
@@ -39,9 +39,12 @@ html
             | Paste your JSON file here:
             input#hh(type='text', name='JSON file')
             input(type='submit', name='Run', value='Run')
-            aaaaa Click on the paper below to create a cell, right click to delete the cell. Click Run to run your graph.
+            p
+              | Click on the paper below to create a cell, right click to delete the cell. Click Run to run your graph, or you can paste the json file of a graph above and run that graph.
+          form(action = "javascript:gJ();")
+            input(type ="submit" value ='Run')
         .col2
-          span(id = 'dashabi') The Results Goes Here
+          span(id = 'dashabi')
       script.
         function changeval(){
         var a = prompt("enter the link name");
@@ -55,7 +58,7 @@ html
             var graph = new joint.dia.Graph;
             var paper = new joint.dia.Paper({
             el: $('#paper'),
-            width: 900, height: 800, gridSize: 1,
+            width: 660, height: 800, gridSize: 1,
             model: graph,
             background: {
             color: '#e6e6e6'
@@ -89,14 +92,14 @@ html
             console.log("had found");
             var cell = new joint.shapes.devs.Model({
             position:{x:250, y:300},
-            size: {width: 120, height: 100},
+            size: {width: 80, height: 80},
             inPorts: ['in1'],
             type: 'cell',
-            outPorts: ['out1', 'out2'],
+            outPorts: ['out1'],
             attrs: {
             '.label': {text: name, 'ref-x':.4, 'ref-y': .2},
-            rect: {fill: 'green'},
             '.inPorts circle': { fill: '#16A085', type: 'input' },
+            rect: {fill: 'green'},
             '.outPorts circle': { fill: '#E74C3C', type: 'output' }
             }
             });
@@ -159,20 +162,27 @@ html
                 url:'/shishi',
                 data: {'haha':j},
                 success :function(msg){
-                  console.log(msg);
-                  alert(JSON.stringify(msg));
-                  $('#dashabi').text(msg);
+                  const str = msg.split(',')
+                  str1 = str[0];
+                  str2 = str[1];
+                  //alert(JSON.stringify(msg));
+                  $('#xiaoshabi').text(str1);
+                  $('.sdf').attr('src', str2);
+                  $('.sdf').attr('width','300');
+                  $('.sdf').attr('height','300');
                 }
 
               });
             }
       .col4
         p #{output}
-        img(src = path3 width = '500' height = '500')
+        p#xiaoshabi The output of the Python scripts will be displayed here
+        img.sdf
+        img(src = path3 width = '300' height = '300')
 
       .footer
         form(action = "javascript:gJ();")
           input(type ="submit")
         p  Special Thanks: Dr. Matias Carrasco Kind
-        p  Authors: Bowen Song, Jiayin Lu
+        p  Authors: Bowen Song, Jiayin Lu, Yijia Qian, Dinyang Chen
         p  We are math students from UIUC

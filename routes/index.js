@@ -78,11 +78,25 @@ router.post('/index', function(req, res){
 
 
 router.post('/shishi', function(req, res){
-  let r = req.body;
-  let c = req;
+  let r = req.body['haha'];
   console.log(r);
-  res.send('asdf'+JSON.stringify(r));
-
+  let thepath = path.resolve('./public/'+'flowAssistant.py');
+  let dataString = '';
+  const py = spawn('python3',['-u',thepath]);
+  py.stdin.write(r);
+  py.stdin.end();
+  py.stdout.on('data',function(data){
+    dataString += data.toString();
+  })
+  py.stdout.on('end', function(){
+    console.log(dataString);
+    if (dataString != ''){
+      res.send(dataString+',/images/corrHeatmap.png');
+    }
+    else{
+      res.send('NOTHING,');
+    }
+  })
 
 })
 

@@ -1,220 +1,53 @@
-<!DOCTYPE html>
-
-
-
+<!Doctype html>
 <html>
-
 <head>
- <meta charset="UTF-8">
-
-
-<style>
-.myholder {
-  width: 800px;
-  height: 800px;
-  border-top: 2px solid black;
-  border-bottom: 2px solid black;
-
-
-}
-
-</style>
-<title> this fucking library</title>
-<link rel = "stylesheet" type = "text/css" href = "/stylesheets/joint.css" />
-<link rel = "stylesheet" type = "text/css" href = "/stylesheets/mycss.css"/>
-<script src = "/javascripts/jquery.min.js"></script>
-<script src = "/javascripts/lodash.min.js"></script>
-<script src = "/javascripts/backbone-min.js"></script>
-<script src = "/javascripts/joint.js"></script>
-<!--
-<script src = "js/joint.shapes.devs.js"> </script> -->
-<script src = "/javascripts/joint.shapes.devs.js"></script>
-<!-- <script src = "js/joint.shapes.devs.min.js"></script> -->
-
-
-
+	<title>
+		Regression calculator
+	</title>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/index.css">
 </head>
-
-
 <body>
 
-<div class = "head">
-  <div class = "fonts">
-    <p> This is an interactive graphing tool for running Python scripts and analyzing data </p>
-  </div>
+	<ul class="nav">
+	<div class="logo">
+	regression calculator
+	</div>
+	<li><a href ="#">home</a></li>
+	<li><a href ="#">about</a></li>
+	<li><a href ="#">feedback</a></li>
 
-</div>
-
-
-
-<div class = "container">
-
-  <div class = "col">
-
-  <div class = "col1">
-    <form action = "/scatterRegression_0.png" method = "GET">
+	</ul>
+	<div class="banner">
+		<img class="banner-image" src="/images/tt.jpg">
+	</div>
+	<ul class="function">
 
 
-      <input type ="submit" name = "why" value = "show the first regression result"/>
+	<li>Data1</li>
+	<li>Data2</li>
 
-    </form>
+	</ul>
 
-
-    <form action = "/scatterRegression_1.png" method = "GET">
-
-      <input type ="submit" name = "why" value = "show the second regression result"/>
-
-    </form>
-
-    <form name = "python" method = "POST">
-      <input type = "submit" value = "Run"/>
-    </form>
-
-    <form method = "POST" action ="/file_upload" enctype="multipart/form-data">
-      <input type = "file" name = "file" size = "50" />
-      <br />
-      <input type = "submit" value = "Upload File"/>
-    </form>
-
-    <form action="/index" method="POST" name = "hello" onsubmit="savejson();">
-      Paste your JSON file here: <input type="text" id = "hh" name = "JSON file"/>
-      <input type = "submit" name = "Run" value = "Run"/>
-    </form>
-
-  </div>
-  <div class = "col2">
-    <p>HelloWorld</p>
-  </div>
-</div>
-<script>
-  function changeval(){
-    var a = prompt("enter the link name");
-    document.getElementById('links').value = a;
-    console.log(document.getElementById('links').value);
-
-  }
-
-</script>
-  <!-- <div class = "col2">
-    <form name = 'theform'>
-      <input type = "text" id = "links" value = "i am a link" name = 'hehe'/>
-    </form>
-    <button onclick = "changeval()" >change link name</button>
-  </div> -->
+	<div class="f">
 
 
+		<input type="file" >
+	    <input type="file"  >
 
 
-<div id="paper" class = "paper">
-<div id = "myholder"></div>
+	</div>
+	<div class ='form1'>
+	<form action = '/loha' method = 'GET'>
+		<div class = 'butt'>
+    <input type="image" src="/images/w.jpg" alt="Submit Form" >
+		<!-- <button type=submit style="background: #ccc url(/images/w.jpg);">GENERATE</button> -->
+		</div>
+	</form>
 
-<script>
-
-
-var graph = new joint.dia.Graph;
-var paper = new joint.dia.Paper({
-    el: $('#paper'),
-    width: 1100, height: 800, gridSize: 1,
-    model: graph,
-    background: {
-       color: '#e6e6e6'
-    },
-    defaultLink: new joint.dia.Link({
-        attrs: { '.marker-target': { d: 'M 10 0 L 0 5 L 10 10 z' }},
-        labels: [{ position: .5, attrs: {
-            text: { text: "default"}}}],
-        }),
-    validateConnection: function(cellViewS, magnetS, cellViewT, magnetT, end, linkView) {
-        // Prevent linking from input ports.
-        if (magnetS && magnetS.getAttribute('type') === 'input') return false;
-        // Prevent linking from output ports to input ports within one element.
-        if (cellViewS === cellViewT) return false;
-        // Prevent linking to input ports.
-        return magnetT && magnetT.getAttribute('type') === 'input';
-    },
-    // validateMagnet: function(cellView, magnet) {
-    //     // Note that this is the default behaviour. Just showing it here for reference.
-    //     // Disable linking interaction for magnets marked as passive (see below `.inPorts circle`).
-    //     return magnet.getAttribute('magnet') !== 'passive';
-    // }
-    validateConnection: function(sourceView, sourceMagnet, targetView, targetMagnet) {
-
-        return sourceMagnet != targetMagnet;
-    }
-});
-
-
-paper.on('blank:pointerclick', function(element, ev, x,y){
-  const name  = prompt("please enter the name of the node");
-  document.python.action = name;
-  console.log("had found");
-  var cell = new joint.shapes.devs.Model({
-    position:{x:250, y:300},
-    size: {width: 120, height: 100},
-    inPorts: ['in1'],
-    outPorts: ['out1', 'out2'],
-    attrs: {
-      '.label': {text: name, 'ref-x':.4, 'ref-y': .2},
-      rect: {fill: 'green'},
-      '.inPorts circle': { fill: '#16A085', type: 'input' },
-      '.outPorts circle': { fill: '#E74C3C', type: 'output' }
-    }
-  });
-  graph.addCell(cell);
-  console.log("ll");
-  console.log(cell.prop('attrs')['.label'].text);
-
-});
-
-paper.on('cell:pointerclick', function(element, ev, x,y){
-
-  var cell = element.model;
-  if (!cell.isLink){
-    const string = cell.prop('attrs')['.label'].text;
-    document.python.action = string;
-    document.python.submit();
-  }
-  else {
-    var text2 = prompt("please enter the link's name")
-    cell.prop('labels/0/attrs/text/text', text2);
-  }
-});
-
-paper.on('cell:contextmenu', function(element, ev, x, y){
-  var cell = element.model;
-  element.remove();
-})
-
-
-function savejson(){
-  console.log(graph);
-  var jSon = JSON.stringify(graph);
-  console.log(jSon);
-  document.getElementById('hh').value = jSon;
-  // $.ajax({
-  //   type: "POST",
-  //   dataType: "json",
-  //   url: "/index",
-  //   data:jSon,
-  //   error: function(xhr, desc, err){
-  //     alert("error");
-  //   }
-  // });
-}
-
-
-
-</script>
-
-</div>
-
-<div class = "footer">
-    <p> Special Thanks: Dr. Matias Carrasco Kind </p>
-    <p> Author: Bowen Song, Jiayin Lu </p>
-    <p> We are math students from UIUC </p>
-</div>
-
-
+	</div>
+    <div class="ger">
+    	generate
+    </div>
 
 
 
