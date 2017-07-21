@@ -31,6 +31,14 @@ html, body {
   border-bottom: 1.2px solid black
 }
 
+
+.col2>span{
+  /*display: flex;*/
+  font-size: 10px;
+  /*width: 300px;*/
+}
+
+
 .paper{
   height: 100%;
   width: 600px;
@@ -65,20 +73,19 @@ html, body {
   background-color: #EAE7E0
 }
 .col1{
-  position: relative;
-  width: 30%;
+  width: 40%;
   height: 250px;
   float: left;
 }
 .col2{
-  width: 70%;
+  width: 60%;
   height: 250px;
-  display: table-cell;
-  vertical-align: bottom;
+  float: left;
+  /*vertical-align: bottom;*/
 
   background-image: url('/images/hello.jpg');
   background-size: 100% 250px; 
-  display: inline-block;
+  /*display: inline-block;*/
   text-align: bottom;
   font-size: 22px;
   color: black;

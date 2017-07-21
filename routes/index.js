@@ -1,9 +1,15 @@
-var express = require('express');
-var router = express.Router();
-var fs = require('fs');
-var path = require('path');
-var spawn = require('child_process').spawn;
-var url = require('url')
+const express = require('express');
+const router = express.Router();
+const fs = require('fs');
+const path = require('path');
+const spawn = require('child_process').spawn;
+const url = require('url')
+const fileUpload = require('express-fileupload');
+const multer = require('multer');
+const formidable = require('formidable');
+router.use(fileUpload());
+
+
 
 /* GET home page. */
 router.get('/loha', function(req, res) {
@@ -97,6 +103,71 @@ router.post('/shishi', function(req, res){
       res.send('NOTHING,');
     }
   })
+
+})
+
+
+router.post('/file_upload', function(req, res){
+    console.log(__dirname);
+  // create an incoming form object
+  //   var form = new formidable.IncomingForm();
+  //   console.log('form created');
+  // // specify that we want to allow the user to upload multiple files in a single request
+  //   form.multiples = false;
+  //   console.log('false');
+  // // store all uploads in the /uploads directory
+  //   form.uploadDir = path.join(__dirname, '/uploads');
+
+
+
+  // // every time a file has been uploaded successfully,
+  // // rename it to it's orignal name
+  // form.on('file', function(field, file) {
+  //   console.log(file.path);
+  //   // fs.rename(file.path, path.join(form.uploadDir, file.name));
+  // });
+
+  // // log any errors that occur
+  // form.on('error', function(err) {
+  //   console.log('An error has occured: \n' + err);
+  // });
+
+  // // once all the files have been uploaded, send a response to the client
+  // form.on('end', function() {
+  //   res.end('success');
+  // });
+
+  // // parse the incoming request containing the form data
+  // form.parse(req);
+
+
+  console.log(req.files.foo);
+  let sampleFile = req.files.foo;
+  let uploadDir = '/home/bowen/GPython/mydata.csv';
+  sampleFile.mv(uploadDir,function(err){
+    if (err)
+      return res.status(500).send(err);
+  })
+  console.log(req.files.foo.mimetype);
+  console.log(req.files.foo.path);
+  res.render('index2', {message: "File has been uploaded! You can view the names variables by clicking the 'summary button'"}); 
+  // fs.writeFile('hello.csv')
+});
+
+
+
+router.post('/show_summary', function(req, res){
+  thepath = '/home/bowen/GPython/public/show_summary.py';
+  let dataString = '';
+  var py = spawn('python3',['-u', thepath]);
+  py.stdout.on('data', function(data){
+        dataString += data.toString();
+        console.log("has red");
+        console.log(dataString);
+  });
+  py.stdout.on('end', function(data){
+      res.send(dataString);
+  });
 
 })
 

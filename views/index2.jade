@@ -32,9 +32,10 @@ html
           form(name='python', method='POST')
             input(type='submit', value='Run')
           form(method='POST', action='/file_upload', enctype='multipart/form-data')
-            input(type='file', name='file', size='50')
+            input(type='file', name='foo', size='50')
             br
             input(type='submit', value='Upload File')
+            span #{message}
           form(action='/index', method='POST', name='hello', onsubmit='savejson();')
             | Paste your JSON file here:
             input#hh(type='text', name='JSON file')
@@ -44,7 +45,38 @@ html
           form(action = "javascript:gJ();")
             input(type ="submit" value ='Run')
         .col2
-          span(id = 'dashabi')
+          form(action = "javascript:show();")
+            input(type = 'submit', name = 'why2', value = 'show the summary of the dataset')
+          .helo
+            | The data summary will be shown here
+          .dropDown(style='display:none;')
+            form()
+              select(multiple='' style = 'height:100px;' id ='selection')
+
+
+
+              input(type='submit')
+        script. 
+          function show(){
+            $.post("/show_summary", function(data, status){
+              //- $('.helo').text(data);
+              console.log(data);
+              const str = data.split(',');
+              console.log(str[0]);
+              $('.helo').css('color','black');
+              $('.helo').css('font-size', '20px');
+              var select = document.getElementById('selection');
+              for (let i = 0; i < 30; i++ ){
+                $('#selection').append($('<option>', {text: str[i]}));
+                //- select.options[i].text = str[i];
+                //- console.log(str[i]);
+              }
+              //- $('.helo').css('border','2px solid black');
+              $('.dropDown').show();
+
+
+            });
+          }
       script.
         function changeval(){
         var a = prompt("enter the link name");

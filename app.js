@@ -25,7 +25,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
-
+// app.use(multer({ dest: '/tmp/'}));
 
 // app.post('/regression', function(req, res){
 //   console.log("doing regression");
