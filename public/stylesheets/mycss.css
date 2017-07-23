@@ -38,6 +38,64 @@ html, body {
   /*width: 300px;*/
 }
 
+.button {
+    background-color: #333333;
+    border: 1px solid #ffcccc;
+    border-radius: 10%;
+    color: white;
+    padding: 4px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+
+    margin: 1px;
+    cursor: pointer;
+}
+
+.button2 {
+    background-color: #00008B;
+    border: 1px solid #ffcccc;
+    border-radius: 10%;
+    color: white;
+    padding: 4px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+
+    margin: 1px;
+    cursor: pointer;
+}
+
+.button3  {
+    background-color: #843000;
+    border: 1px solid #ffcccc;
+    border-radius: 10%;
+    color: white;
+    padding: 4px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+
+    margin: 1px;
+    cursor: pointer;
+}
+
+
+.choose{
+  font-size: 15px;
+  margin: 1px;
+  padding: 0px;
+  color:#00008B;
+}
+
+.choose:hover{
+  text-decoration: underline;
+}
+
+
 
 .paper{
   height: 100%;
@@ -73,12 +131,12 @@ html, body {
   background-color: #EAE7E0
 }
 .col1{
-  width: 40%;
+  width: 36%;
   height: 250px;
   float: left;
 }
 .col2{
-  width: 60%;
+  width: 64%;
   height: 250px;
   float: left;
   /*vertical-align: bottom;*/
@@ -87,7 +145,7 @@ html, body {
   background-size: 100% 250px; 
   /*display: inline-block;*/
   text-align: bottom;
-  font-size: 22px;
+  font-size: 18px;
   color: black;
 
 }

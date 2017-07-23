@@ -25,38 +25,45 @@ html
     .container
       .col
         .col1
-          form(action='/scatterRegression_0.png', method='GET')
-            input(type='submit', name='why', value='show the first regression result')
-          form(action='/scatterRegression_1.png', method='GET')
-            input(type='submit', name='why', value='show the second regression result')
           form(name='python', method='POST')
-            input(type='submit', value='Run')
+            input(type='submit', value='Run a single cell', class = 'button')
           form(method='POST', action='/file_upload', enctype='multipart/form-data')
-            input(type='file', name='foo', size='50')
-            br
-            input(type='submit', value='Upload File')
+            label.custom-file-upload(for='file-upload')
+              p( class = 'choose')
+                | Choose your file
+              input#file-upload(type='file', name = 'foo' style='display:none;')
+
+            //- input(type='file', name='foo', size='50' )
+            input(type='submit', value='Upload File' class = 'button'  onclick = 'seek();')
             span #{message}
           form(action='/index', method='POST', name='hello', onsubmit='savejson();')
-            | Paste your JSON file here:
+            | Paste your JSON file here: 
             input#hh(type='text', name='JSON file')
-            input(type='submit', name='Run', value='Run')
+            input(type='submit', name='Run', value='Run', class = 'button' )
             p
               | Click on the paper below to create a cell, right click to delete the cell. Click Run to run your graph, or you can paste the json file of a graph above and run that graph.
           form(action = "javascript:gJ();")
-            input(type ="submit" value ='Run')
+            input(type ="submit" value ='Run' class = 'button')
         .col2
           form(action = "javascript:show();")
-            input(type = 'submit', name = 'why2', value = 'show the summary of the dataset')
+            input(id = 'hahaha', type = 'submit', name = 'why2', value = 'show the summary of the dataset', class = 'button')
           .helo
             | The data summary will be shown here
-          .dropDown(style='display:none;')
-            form()
-              select(multiple='' style = 'height:100px;' id ='selection')
-
-
+          .dropDown(style= dropstyle)
+            form(name = 'drop',method = 'POST', action = '/sharp')
+              select(multiple='' style = 'height:100px;' id ='selection' name = 'bar')
 
               input(type='submit')
+          form(action = "javascript:createdataCell();")
+            input(type = 'submit', name = 'hahahaha', value = 'create a data cell', class = 'button2')
+          form()
+            input(type = 'submit', name = 'ha', value = 'create an output cell', class = 'button3')
+          span(id = 'infodata')  #{datainfo} 
+
         script. 
+          function seek(){
+            $('#hahaha').show();
+          }
           function show(){
             $.post("/show_summary", function(data, status){
               //- $('.helo').text(data);
@@ -66,15 +73,14 @@ html
               $('.helo').css('color','black');
               $('.helo').css('font-size', '20px');
               var select = document.getElementById('selection');
-              for (let i = 0; i < 30; i++ ){
-                $('#selection').append($('<option>', {text: str[i]}));
+              for (let i = 0; i < str.length; i++ ){
+                $('#selection').append($('<option>', {text: str[i], value: str[i]}));
                 //- select.options[i].text = str[i];
                 //- console.log(str[i]);
               }
               //- $('.helo').css('border','2px solid black');
               $('.dropDown').show();
-
-
+            
             });
           }
       script.
@@ -82,7 +88,7 @@ html
         var a = prompt("enter the link name");
         document.getElementById('links').value = a;
         console.log(document.getElementById('links').value);
-        }
+        } 
       .col3
         #paper.paper
           #myholder
@@ -118,6 +124,36 @@ html
             return sourceMagnet != targetMagnet;
             }
             });
+
+
+            function createdataCell(){
+            //- document.drop.submit();
+            var st = document.getElementById('infodata').innerHTML;
+            console.log(st);
+            console.log(st.innerHTML);
+            const name  = prompt("please enter the name of the node");
+            document.python.action = name;
+            console.log("had found");
+            var cell = new joint.shapes.devs.Model({
+            position:{x:250, y:300},
+            size: {width: 80, height: 80},
+            inPorts: ['in1'],
+            type: 'cell',
+            outPorts: ['out1'],
+            attrs: {
+            '.label': {text: name, 'ref-x':.4, 'ref-y': .2},
+            '.inPorts circle': { fill: '#16A085', type: 'input' },
+            rect: {fill: 'green'},
+            '.outPorts circle': { fill: '#E74C3C', type: 'output' }
+            }
+            });
+            graph.addCell(cell);
+            }
+
+
+
+
+
             paper.on('blank:pointerclick', function(element, ev, x,y){
             const name  = prompt("please enter the name of the node");
             document.python.action = name;

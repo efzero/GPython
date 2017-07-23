@@ -13,7 +13,7 @@ router.use(fileUpload());
 
 /* GET home page. */
 router.get('/loha', function(req, res) {
-  res.render('index2', { t: 'Express' });
+  res.render('index2', { dropstyle: 'display:none;' });
 });
 //
 // router.get('/run', function(req, res){
@@ -169,7 +169,13 @@ router.post('/show_summary', function(req, res){
       res.send(dataString);
   });
 
-})
+});
+
+router.post('/sharp', function(req,res){
+  console.log(req.body['bar']);
+  res.render('index2', {datainfo: req.body['bar'], dropstyle: 'display:inline;'});
+});
+
 
 
 module.exports = router;
