@@ -134,6 +134,7 @@ def main():
                         workflow(backwardPointer[i], pointer)
 
             if instName == 'regression plot':
+                print('?/images/scatterRegression_0.png')
                 xyGroup = list(filter(lambda d: d['target']['id'] == inID, pointer))
                 x = idDict[idDict[xyGroup[0]['source']['id']][0]]
                 y = idDict[idDict[xyGroup[0]['source']['id']][1]]

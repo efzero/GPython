@@ -235,7 +235,7 @@ html
                 url:'/shishi',
                 data: {'haha':j},
                 success :function(msg){
-                  const str = msg.split(',')
+                  const str = msg.split('?');
                   str1 = str[0];
                   str2 = str[1];
                   //alert(JSON.stringify(msg));

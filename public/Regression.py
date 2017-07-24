@@ -61,7 +61,7 @@ def regPlot (y, x, results):
         plt.title("Scatter & Regression")
         plt.ylabel(y.columns[0])
         plt.xlabel(x.columns[i])
-        fig.savefig('/home/bowen/GPython/public/images/catterRegression_{}.png'.format(i), bbox_inches='tight')
+        fig.savefig('/home/bowen/GPython/public/images/scatterRegression_{}.png'.format(i), bbox_inches='tight')
     return None
 
 
