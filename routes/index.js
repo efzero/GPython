@@ -57,6 +57,9 @@ router.post('/plot', function(req, res){
 })
 
 router.post('/index', function(req, res){
+  function savePersonToPublicFolder(person, callback) {
+  fs.writeFile('./public/person.json', JSON.stringify(person), callback);
+}
   // console.log(req.body);
   var j = req.body['JSON file'];
   var thepath;
@@ -72,12 +75,19 @@ router.post('/index', function(req, res){
     dataString += data.toString();
   })
   py.stdout.on('end', function(){
+    
     console.log(dataString);
     // res.end(j);
-    if (dataString != '')
+    if (dataString != ''){
+      console.log(__dirname);
+      fs.writeFile('./public/test.json', j);
       res.render('index2',{output:dataString,path3:'/images/corrHeatmap.png' });
-    else
+    }
+    else{
+      console.log(__dirname);
+      fs.writeFile('./public/test.json', j);
       res.render('index2', {output: 'NOTHING!'});
+    }
   })
 
 })
@@ -85,19 +95,22 @@ router.post('/index', function(req, res){
 
 router.post('/shishi', function(req, res){
   let r = req.body['haha'];
+  fs.writeFile('./test.json', r);
   console.log(r);
-  let thepath = path.resolve('./public/'+'flowAssistant.py');
+  let thepath = path.resolve('./public/'+'flow.py');
+  console.log(thepath);
   let dataString = '';
-  const py = spawn('python3',['-u',thepath]);
-  py.stdin.write(r);
-  py.stdin.end();
+  var py = spawn('python3',['-u',thepath]);
+  // py.stdin.write(r);
+  // py.stdin.end();
   py.stdout.on('data',function(data){
+    console.log('python running');
     dataString += data.toString();
   })
   py.stdout.on('end', function(){
     console.log(dataString);
     if (dataString != ''){
-      res.send(dataString+',/images/corrHeatmap.png');
+      res.send(dataString);
     }
     else{
       res.send('NOTHING,');
@@ -173,7 +186,7 @@ router.post('/show_summary', function(req, res){
 
 router.post('/sharp', function(req,res){
   console.log(req.body['bar']);
-  res.render('index2', {datainfo: req.body['bar'], dropstyle: 'display:inline;'});
+  res.render('index2', {datainfo: req.body['bar']});
 });
 
 
