@@ -151,7 +151,7 @@ html
                 attrs: {
                 '.label': {text: name, 'ref-x':.4, 'ref-y': .2},
                 '.inPorts circle': { fill: '#16A085', type: 'input' },
-                rect: {fill: '#00008B'},
+                rect: {fill: 'lightblue'},
                 '.outPorts circle': { fill: '#E74C3C', type: 'output' }
                 }
               });
@@ -225,8 +225,7 @@ html
 
             function gJ(){
               var j = JSON.stringify(graph);
-              console.log(j);
-              console.log(typeof(j));
+            
               var str = "hello, my name is Bowen";
               $.ajax({
                 type:'POST',
@@ -236,13 +235,22 @@ html
                 data: {'haha':j},
                 success :function(msg){
                   const str = msg.split('?');
-                  str1 = str[0];
-                  str2 = str[1];
+                  console.log(str.length);
+                  if (str.length != 1){
+                    str1 = str[0];
+                    str2 = str[1];
                   //alert(JSON.stringify(msg));
-                  $('#xiaoshabi').text(str1);
-                  $('.sdf').attr('src', str2);
-                  $('.sdf').attr('width','300');
-                  $('.sdf').attr('height','300');
+                    $('#xiaoshabi').text(str1);
+                    $('.sdf').attr('src', str2);
+                    $('.sdf').attr('width','300');
+                    $('.sdf').attr('height','300');
+                    $('.sdf').show();
+                  }
+                  else{
+                    console.log('has red');
+                    $('#xiaoshabi').text(str[0]);
+                    $('.sdf').hide();
+                  }
                 }
 
               });

@@ -15,14 +15,21 @@ from Conversion import csvDF
 #Need to read and Update JSON from website
 
 
+def read_in():
+    lines = sys.stdin.readlines()
+    #Since our input would only be having one line, parse our JSON data from that
+    return json.loads(lines[0])
+
 
 def main():
 
-    with open('test.json') as json_data:
-        text = json.load(json_data)
+    # with open('test.json') as json_data:
+    #     text = json.load(json_data)
     # text['cells'][0]['ports']['groups']['out']['attrs']['.port-body']['magnet']="shabi"
     # text['cells'][0]['ports']['groups']['in']['attrs']['.port-body']['magnet']="shabi"
     print('nihao')
+    text = read_in()
+    
 
 
     obj  = list(filter(lambda d: d['type'] == 'cell', text['cells']))

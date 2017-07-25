@@ -95,7 +95,7 @@ router.post('/index', function(req, res){
 
 router.post('/shishi', function(req, res){
   let r = req.body['haha'];
-  fs.writeFile('./test.json', r);
+  // fs.writeFile('./test.json', r);
   console.log(r);
   let thepath = path.resolve('./public/'+'flow.py');
   console.log(thepath);
@@ -103,6 +103,8 @@ router.post('/shishi', function(req, res){
   var py = spawn('python3',['-u',thepath]);
   // py.stdin.write(r);
   // py.stdin.end();
+  py.stdin.write(r);
+  py.stdin.end();
   py.stdout.on('data',function(data){
     console.log('python running');
     dataString += data.toString();
@@ -142,6 +144,7 @@ router.post('/show_summary', function(req, res){
   thepath = '/home/bowen/GPython/public/show_summary.py';
   let dataString = '';
   var py = spawn('python3',['-u', thepath]);
+
   py.stdout.on('data', function(data){
         dataString += data.toString();
         console.log("has red");
