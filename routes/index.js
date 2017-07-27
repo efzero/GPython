@@ -75,7 +75,7 @@ router.post('/index', function(req, res){
     dataString += data.toString();
   })
   py.stdout.on('end', function(){
-    
+
     console.log(dataString);
     // res.end(j);
     if (dataString != ''){
@@ -134,7 +134,7 @@ router.post('/file_upload', function(req, res){
   })
   console.log(req.files.foo.mimetype);
   console.log(req.files.foo.path);
-  res.render('index2', {message: "File has been uploaded! You can view the names variables by clicking the 'summary button'"}); 
+  res.render('index2', {message: "File has been uploaded! You can view the names variables by clicking the 'summary button'"});
   // fs.writeFile('hello.csv')
 });
 

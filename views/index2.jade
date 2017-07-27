@@ -44,6 +44,9 @@ html
               | Click on the paper below to create a cell, right click to delete the cell. Click Run to run your graph, or you can paste the json file of a graph above and run that graph.
           form(action = "javascript:gJ();")
             input(type ="submit" value ='Run' class = 'button')
+          form(action = "javascript:loadRegression();")
+            input(type = 'submit' value = 'Load Regression Template' class = 'button')
+          
         .col2
           form(action = "javascript:show();")
             input(id = 'hahaha', type = 'submit', name = 'why2', value = 'show the summary of the dataset', class = 'button')
@@ -54,7 +57,7 @@ html
               select(multiple='' style = 'height:100px;' id ='selection' name = 'bar')
           form(action = "javascript:createdataCell();")
             input(type = 'submit', name = 'hahahaha', value = 'create a data cell', class = 'button2')
-          form()
+          form(action = "javascript:promptOutputCell();")
             input(type = 'submit', name = 'ha', value = 'create an output cell', class = 'button3')
           span(id = 'infodata')  #{datainfo} 
 
@@ -102,7 +105,7 @@ html
             var graph = new joint.dia.Graph;
             var paper = new joint.dia.Paper({
               el: $('#paper'),
-              width: 660, height: 800, gridSize: 1,
+              width: 660, height: 1600, gridSize: 1,
               model: graph,
               background: {
               color: '#e6e6e6'
@@ -133,37 +136,57 @@ html
 
 
             function createdataCell(){
-              console.log($('#selection').val());
-            //- document.drop.submit();
-              var st = document.getElementById('infodata').innerHTML;
-            //- console.log(st);
-            //- console.log(st.innerHTML);
-              const name  = prompt("please enter the name of the node");
-              document.python.action = name;
+                var value = $('#selection').val();
+                var name = prompt("please enter the name of the node");
+                var cell = dataCell(value, name);
+                graph.addCell(cell);
+            //-   console.log($('#selection').val());
+            //- //- document.drop.submit();
+            //-   var st = document.getElementById('infodata').innerHTML;
+            //- //- console.log(st);
+            //- //- console.log(st.innerHTML);
+            //-   const name  = prompt("please enter the name of the node");
+            //-   document.python.action = name;
+            //-   console.log("had found");
+            //-   var cell = new joint.shapes.devs.Model({
+            //-     position:{x:250, y:300},
+            //-     size: {width: 80, height: 80},
+            //-     inPorts: ['in1'],
+            //-     data: $('#selection').val(),
+            //-     type: 'cell',
+            //-     outPorts: ['out1'],
+            //-     attrs: {
+            //-     '.label': {text: name, 'ref-x':.4, 'ref-y': .2},
+            //-     '.inPorts circle': { fill: '#16A085', type: 'input' },
+            //-     rect: {fill: 'lightblue'},
+            //-     '.outPorts circle': { fill: '#E74C3C', type: 'output' }
+            //-     }
+            //-   });
+            //-   graph.addCell(cell);
+            }
+
+            function dataCell(value,name){
               console.log("had found");
               var cell = new joint.shapes.devs.Model({
                 position:{x:250, y:300},
                 size: {width: 80, height: 80},
                 inPorts: ['in1'],
-                data: $('#selection').val(),
+                data: value,
                 type: 'cell',
                 outPorts: ['out1'],
                 attrs: {
-                '.label': {text: name, 'ref-x':.4, 'ref-y': .2},
-                '.inPorts circle': { fill: '#16A085', type: 'input' },
+                  '.label': {text: name, 'ref-x':.4, 'ref-y': .2},
+                  '.inPorts circle': { fill: '#16A085', type: 'input' },
                 rect: {fill: 'lightblue'},
-                '.outPorts circle': { fill: '#E74C3C', type: 'output' }
+                  '.outPorts circle': { fill: '#E74C3C', type: 'output' }
                 }
               });
-              graph.addCell(cell);
+              return cell;
+
             }
 
 
-
-
-
-            paper.on('blank:pointerclick', function(element, ev, x,y){
-              const name  = prompt("please enter the name of the node");
+            function createOutputCell(name){
               document.python.action = name;
               console.log("had found");
               var cell = new joint.shapes.devs.Model({
@@ -179,9 +202,20 @@ html
                   '.outPorts circle': { fill: '#E74C3C', type: 'output' }
                 }
               });
+              return cell;
+            }
+
+            function promptOutputCell(){
+              const name = prompt("please enter the name of the cell");
+              var cell = createOutputCell(name);
               graph.addCell(cell);
-              console.log("ll");
-              console.log(cell.prop('attrs')['.label'].text);
+            }
+
+
+
+
+            paper.on('blank:pointerclick', function(element, ev, x,y){
+              promptOutputCell();
             });
 
 
@@ -189,30 +223,26 @@ html
             var cell = element.model;
             //- console.log(cell.get('attrs')['.label'] == undefined);
             if (cell.get('attrs')['.label'] != undefined){
-            const string = cell.prop('attrs')['.label'].text;
-            document.python.action = string;
-            document.python.submit();
+            //- const string = cell.prop('attrs')['.label'].text;
+            //- document.python.action = string;
+            //- document.python.submit();
+              let string = $('#selection').val();
+              console.log(string);
+              if (cell.get('data') != null || cell.get('data') != undefined){
+                cell.prop('data', string);
+                console.log('changed');
+              }
             }
             else {
             var text2 = prompt("please enter the link's name")
             cell.prop('labels/0/attrs/text/text', text2);
             }
             });
-            paper.on('cell:pointerclick', function(element, ev, x, y){
-            var cell = element.model;
-            const string = cell.prop('attrs')['.label'].text;
-            $.ajax({
-            type: "POST",
-            dataType: "text",
-            url: "/show",
-            data: string
-            });
-            });
+
             
             paper.on('cell:contextmenu', function(element, ev, x, y){
               var cell = element.model;
               graph.removeCells(cell);
-              graph.removeLinks(element);
               //- element.remove();
 
             });
@@ -221,6 +251,80 @@ html
             var jSon = JSON.stringify(graph);
             console.log(jSon);
             document.getElementById('hh').value = jSon;
+            }
+
+
+
+
+
+            function loadRegression(){
+
+
+              var data1 = dataCell('COUNT FEMALE', 'input1');
+              var data2 = dataCell('COUNT MALE', 'input2');
+              data1.translate(-220, -200);
+              data2.translate(-220, 200);
+              graph.addCell(data1);
+              graph.addCell(data2);
+               var cell1 = createOutputCell('group');
+               cell1.translate(-150,0);
+              graph.addCell(cell1);
+              var xlink = new joint.dia.Link({
+                 source: { id: data1.id },
+                 target: { id: cell1.id },
+                 attrs: { '.marker-target': { d: 'M 10 0 L 0 5 L 10 10 z' }},
+                type: 'link',
+                labels: [{ position: .5, attrs: {
+                text: { text: "groupAsX"}}}],
+              });
+              graph.addCell(xlink);
+
+              var ylink = new joint.dia.Link({
+                 source: { id: data2.id },
+                 target: { id: cell1.id },
+                 attrs: { '.marker-target': { d: 'M 10 0 L 0 5 L 10 10 z' }},
+                type: 'link',
+                labels: [{ position: .5, attrs: {
+                text: { text: "groupAsY"}}}],
+              });
+              graph.addCell(ylink);
+
+
+              var cell2 = createOutputCell('reg');
+              cell2.translate(50,0);
+              graph.addCell(cell2);
+
+              
+              var cell3 = createOutputCell('regsum');
+              cell3.translate(250,0);
+              graph.addCell(cell3);
+
+              var link = new joint.dia.Link({
+                 source: { id: cell1.id },
+                 target: { id: cell2.id },
+                 attrs: { '.marker-target': { d: 'M 10 0 L 0 5 L 10 10 z' }},
+                type: 'link',
+                labels: [{ position: .5, attrs: {
+                text: { text: "regression"}}}],
+              });
+              graph.addCell(link);
+              var link2 = new joint.dia.Link({
+                 source: { id: cell2.id },
+                 target: { id: cell3.id },
+                 attrs: { '.marker-target': { d: 'M 10 0 L 0 5 L 10 10 z' }},
+                type: 'link',
+                labels: [{ position: .5, attrs: {
+                text: { text: "regression summary"}}}],
+              });
+              graph.addCell(link2);
+
+                //- var cell2 = 
+              //- regression = '{"cells":[{"type":"cell","inPorts":["in1"],"outPorts":["out1"],"size":{"width":80,"height":80},"ports":{"groups":{"in":{"position":{"name":"left"},"attrs":{".port-label":{"fill":"#000"},".port-body":{"fill":"#fff","stroke":"#000","r":10,"magnet":true}},"label":{"position":{"name":"left","args":{"y":10}}}},"out":{"position":{"name":"right"},"attrs":{".port-label":{"fill":"#000"},".port-body":{"fill":"#fff","stroke":"#000","r":10,"magnet":true}},"label":{"position":{"name":"right","args":{"y":10}}}}},"items":[{"id":"in1","group":"in","attrs":{".port-label":{"text":"in1"}}},{"id":"out1","group":"out","attrs":{".port-label":{"text":"out1"}}}]},"position":{"x":85,"y":285},"angle":0,"id":"0f933fd9-7db2-44d3-9ac6-b8e6baa3978a","z":1,"attrs":{".label":{"text":"group","ref-x":0.4,"ref-y":0.2},".inPorts circle":{"fill":"#16A085","type":"input"},"rect":{"fill":"#843000"},".outPorts circle":{"fill":"#E74C3C","type":"output"}}},{"type":"cell","inPorts":["in1"],"outPorts":["out1"],"size":{"width":80,"height":80},"ports":{"groups":{"in":{"position":{"name":"left"},"attrs":{".port-label":{"fill":"#000"},".port-body":{"fill":"#fff","stroke":"#000","r":10,"magnet":true}},"label":{"position":{"name":"left","args":{"y":10}}}},"out":{"position":{"name":"right"},"attrs":{".port-label":{"fill":"#000"},".port-body":{"fill":"#fff","stroke":"#000","r":10,"magnet":true}},"label":{"position":{"name":"right","args":{"y":10}}}}},"items":[{"id":"in1","group":"in","attrs":{".port-label":{"text":"in1"}}},{"id":"out1","group":"out","attrs":{".port-label":{"text":"out1"}}}]},"position":{"x":307,"y":251},"angle":0,"id":"e1620f2a-198a-48df-a68f-0908718ec98c","z":2,"attrs":{".label":{"text":"reg","ref-x":0.4,"ref-y":0.2},".inPorts circle":{"fill":"#16A085","type":"input"},"rect":{"fill":"#843000"},".outPorts circle":{"fill":"#E74C3C","type":"output"}}},{"type":"cell","inPorts":["in1"],"outPorts":["out1"],"size":{"width":80,"height":80},"ports":{"groups":{"in":{"position":{"name":"left"},"attrs":{".port-label":{"fill":"#000"},".port-body":{"fill":"#fff","stroke":"#000","r":10,"magnet":true}},"label":{"position":{"name":"left","args":{"y":10}}}},"out":{"position":{"name":"right"},"attrs":{".port-label":{"fill":"#000"},".port-body":{"fill":"#fff","stroke":"#000","r":10,"magnet":true}},"label":{"position":{"name":"right","args":{"y":10}}}}},"items":[{"id":"in1","group":"in","attrs":{".port-label":{"text":"in1"}}},{"id":"out1","group":"out","attrs":{".port-label":{"text":"out1"}}}]},"position":{"x":552,"y":262},"angle":0,"id":"4c221478-6ccb-4253-a748-908e3bf7c3bb","z":3,"attrs":{".label":{"text":"regplot","ref-x":0.4,"ref-y":0.2},".inPorts circle":{"fill":"#16A085","type":"input"},"rect":{"fill":"#843000"},".outPorts circle":{"fill":"#E74C3C","type":"output"}}},{"type":"link","source":{"id":"0f933fd9-7db2-44d3-9ac6-b8e6baa3978a","selector":"g:nth-child(1) > g:nth-child(4) > circle:nth-child(1)","port":"out1"},"target":{"id":"e1620f2a-198a-48df-a68f-0908718ec98c","port":"in1","selector":"g:nth-child(1) > g:nth-child(3) > circle:nth-child(1)"},"labels":[{"position":0.5,"attrs":{"text":{"text":"regression"}}}],"id":"28e843cc-1234-41fd-96c8-2a1632dea3aa","z":4,"attrs":{".marker-target":{"d":"M 10 0 L 0 5 L 10 10 z"}}},{"type":"link","source":{"id":"e1620f2a-198a-48df-a68f-0908718ec98c","selector":"g:nth-child(1) > g:nth-child(4) > circle:nth-child(1)","port":"out1"},"target":{"id":"4c221478-6ccb-4253-a748-908e3bf7c3bb","port":"in1","selector":"g:nth-child(1) > g:nth-child(3) > circle:nth-child(1)"},"labels":[{"position":0.5,"attrs":{"text":{"text":"regression plot"}}}],"id":"c50c3db9-d597-44b4-9467-2fdfd4cbed65","z":5,"attrs":{".marker-target":{"d":"M 10 0 L 0 5 L 10 10 z"}}}]}';
+              //regression = {"cells":[{"type":'basic.Rect',"inPorts":["in1"],"outPorts":["out1"],"size":{"width":80,"height":80},"ports":{"groups":{"in":{"position":{"name":"left"},"attrs":{".port-label":{"fill":"#000"},".port-body":{"fill":"#fff","stroke":"#000","r":10,"magnet":true}},"label":{"position":{"name":"left","args":{"y":10}}}},"out":{"position":{"name":"right"},"attrs":{".port-label":{"fill":"#000"},".port-body":{"fill":"#fff","stroke":"#000","r":10,"magnet":true}},"label":{"position":{"name":"right","args":{"y":10}}}}},"items":[{"id":"in1","group":"in","attrs":{".port-label":{"text":"in1"}}},{"id":"out1","group":"out","attrs":{".port-label":{"text":"out1"}}}]},"position":{"x":250,"y":300},"angle":0,"id":"cdb8b00a-1407-4d0c-aa1c-24a78c991739","z":1,"attrs":{".label":{"text":"input","ref-x":0.4,"ref-y":0.2},".inPorts circle":{"fill":"#16A085","type":"input"},"rect":{"fill":"#843000"},".outPorts circle":{"fill":"#E74C3C","type":"output"}}}]};
+              //- console.log(JSON.parse(regression));
+              //regression = {"cells":[{"type":"basic.Rect","inPorts":["in1"],"outPorts":["out1"],"size":{"width":80,"height":80},"ports":{"groups":{"in":{"position":{"name":"left"},"attrs":{".port-label":{"fill":"#000"},".port-body":{"fill":"#fff","stroke":"#000","r":10,"magnet":true}},"label":{"position":{"name":"left","args":{"y":10}}}},"out":{"position":{"name":"right"},"attrs":{".port-label":{"fill":"#000"},".port-body":{"fill":"#fff","stroke":"#000","r":10,"magnet":true}},"label":{"position":{"name":"right","args":{"y":10}}}}},"items":[{"id":"in1","group":"in","attrs":{".port-label":{"text":"in1"}}},{"id":"out1","group":"out","attrs":{".port-label":{"text":"out1"}}}]},"position":{"x":85,"y":285},"angle":0,"id":"0f933fd9-7db2-44d3-9ac6-b8e6baa3978a","z":1,"attrs":{".label":{"text":"group","ref-x":0.4,"ref-y":0.2},".inPorts circle":{"fill":"#16A085","type":"input"},"rect":{"fill":"#843000"},".outPorts circle":{"fill":"#E74C3C","type":"output"}}},{"type":"basic.Rect","inPorts":["in1"],"outPorts":["out1"],"size":{"width":80,"height":80},"ports":{"groups":{"in":{"position":{"name":"left"},"attrs":{".port-label":{"fill":"#000"},".port-body":{"fill":"#fff","stroke":"#000","r":10,"magnet":true}},"label":{"position":{"name":"left","args":{"y":10}}}},"out":{"position":{"name":"right"},"attrs":{".port-label":{"fill":"#000"},".port-body":{"fill":"#fff","stroke":"#000","r":10,"magnet":true}},"label":{"position":{"name":"right","args":{"y":10}}}}},"items":[{"id":"in1","group":"in","attrs":{".port-label":{"text":"in1"}}},{"id":"out1","group":"out","attrs":{".port-label":{"text":"out1"}}}]},"position":{"x":307,"y":251},"angle":0,"id":"e1620f2a-198a-48df-a68f-0908718ec98c","z":2,"attrs":{".label":{"text":"reg","ref-x":0.4,"ref-y":0.2},".inPorts circle":{"fill":"#16A085","type":"input"},"rect":{"fill":"#843000"},".outPorts circle":{"fill":"#E74C3C","type":"output"}}},{"type":"basic.Rect","inPorts":["in1"],"outPorts":["out1"],"size":{"width":80,"height":80},"ports":{"groups":{"in":{"position":{"name":"left"},"attrs":{".port-label":{"fill":"#000"},".port-body":{"fill":"#fff","stroke":"#000","r":10,"magnet":true}},"label":{"position":{"name":"left","args":{"y":10}}}},"out":{"position":{"name":"right"},"attrs":{".port-label":{"fill":"#000"},".port-body":{"fill":"#fff","stroke":"#000","r":10,"magnet":true}},"label":{"position":{"name":"right","args":{"y":10}}}}},"items":[{"id":"in1","group":"in","attrs":{".port-label":{"text":"in1"}}},{"id":"out1","group":"out","attrs":{".port-label":{"text":"out1"}}}]},"position":{"x":552,"y":262},"angle":0,"id":"4c221478-6ccb-4253-a748-908e3bf7c3bb","z":3,"attrs":{".label":{"text":"regplot","ref-x":0.4,"ref-y":0.2},".inPorts circle":{"fill":"#16A085","type":"input"},"rect":{"fill":"#843000"},".outPorts circle":{"fill":"#E74C3C","type":"output"}}},{"type":"Basic.Text","source":{"id":"0f933fd9-7db2-44d3-9ac6-b8e6baa3978a","selector":"g:nth-child(1) > g:nth-child(4) > circle:nth-child(1)","port":"out1"},"target":{"id":"e1620f2a-198a-48df-a68f-0908718ec98c","port":"in1","selector":"g:nth-child(1) > g:nth-child(3) > circle:nth-child(1)"},"labels":[{"position":0.5,"attrs":{"text":{"text":"regression"}}}],"id":"28e843cc-1234-41fd-96c8-2a1632dea3aa","z":4,"attrs":{".marker-target":{"d":"M 10 0 L 0 5 L 10 10 z"}}},{"type":"basic.Text","source":{"id":"e1620f2a-198a-48df-a68f-0908718ec98c","selector":"g:nth-child(1) > g:nth-child(4) > circle:nth-child(1)","port":"out1"},"target":{"id":"4c221478-6ccb-4253-a748-908e3bf7c3bb","port":"in1","selector":"g:nth-child(1) > g:nth-child(3) > circle:nth-child(1)"},"labels":[{"position":0.5,"attrs":{"text":{"text":"regression plot"}}}],"id":"c50c3db9-d597-44b4-9467-2fdfd4cbed65","z":5,"attrs":{".marker-target":{"d":"M 10 0 L 0 5 L 10 10 z"}}}]};
+              //- graph.fromJSON(regression);
+
             }
 
             function gJ(){
@@ -234,17 +338,37 @@ html
                 url:'/shishi',
                 data: {'haha':j},
                 success :function(msg){
+                  msg = msg.replace("??","?");
+                  console.log(msg)
                   const str = msg.split('?');
                   console.log(str.length);
                   if (str.length != 1){
-                    str1 = str[0];
-                    str2 = str[1];
+                    var position = 0;
+                    for (let i = 0; i < str.length; i++){
+                      if (str[i] == '/images/scatterRegression_0.png'){
+                        position = i;
+                        $('.sdf').attr('src', '/images/scatterRegression_0.png');
+                        $('.sdf').attr('width','300');
+                        $('.sdf').attr('height','300');
+                        $('.sdf').show();
+                      }
+                    }
+                    console.log('index is');
+                    console.log(position);
+                    var st = '';
+                    for (var j = 0; j < str.length; j++){
+                      if (j != position && str[j] != ''){
+
+                        st = st + str[j];
+                        st = st + "\n\n\n";
+                      } 
+                    }
+                    $('#xiaoshabi').text(st);
                   //alert(JSON.stringify(msg));
-                    $('#xiaoshabi').text(str1);
-                    $('.sdf').attr('src', str2);
-                    $('.sdf').attr('width','300');
-                    $('.sdf').attr('height','300');
-                    $('.sdf').show();
+                    //- $('.sdf').attr('src', '/images/scatterRegression_0.png');
+                    //- $('.sdf').attr('width','300');
+                    //- $('.sdf').attr('height','300');
+                    //- $('.sdf').show();
                   }
                   else{
                     console.log('has red');
@@ -258,8 +382,7 @@ html
       .col4
         p #{output}
         p#xiaoshabi The output of the Python scripts will be displayed here
-        img.sdf
-        img(src = path3 width = '300' height = '300')
+        img.sdf(src = path3 width = '300' height = '300')
 
       .footer
         form(action = "javascript:gJ();")

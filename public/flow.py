@@ -27,7 +27,6 @@ def main():
     #     text = json.load(json_data)
     # text['cells'][0]['ports']['groups']['out']['attrs']['.port-body']['magnet']="shabi"
     # text['cells'][0]['ports']['groups']['in']['attrs']['.port-body']['magnet']="shabi"
-    print('nihao')
     text = read_in()
     
 
@@ -120,7 +119,9 @@ def main():
             if instName == 'summary':
                 idDict[outID] = summary_stat(idDict[inID])
                 finishedPointer.append(thisID)
-                print (idDict[outID])
+                string = str(idDict[outID])
+                string = "?"+string+"?"
+                print (string, end ="")
 
 
             if instName == 'regression':
@@ -129,22 +130,36 @@ def main():
                     #and "GroupAsY" when grouping. As it will take the first two
                     #grouped object as x and y.
                     x = idDict[idDict[inID][0]]
-                    y = idDict[idDict[inID][1]] 
+                    y = idDict[idDict[inID][1]]
+                    # print(x)
+                    try:
+                        x = x.to_frame()
+                        y = y.to_frame()
+                    except:
+                        x = x
+                        y = y
+
                     #check if the y is a single set of data before running:
                     if len(y.columns) == 1:
                         idDict[outID] = regression(y, x)
                         finishedPointer.append(thisID)
-                        print (idDict[outID].summary())
+                    # print (idDict[outID].summary())
                 else:
                     backwardPointer = list(filter(lambda d: d['target']['id'] == inID, pointer))
                     for i in range(0, len(backwardPointer)):
                         workflow(backwardPointer[i], pointer)
 
             if instName == 'regression plot':
-                print('?/images/scatterRegression_0.png')
+                print('?/images/scatterRegression_0.png?', end = "")
                 xyGroup = list(filter(lambda d: d['target']['id'] == inID, pointer))
                 x = idDict[idDict[xyGroup[0]['source']['id']][0]]
                 y = idDict[idDict[xyGroup[0]['source']['id']][1]]
+                try:
+                    x = x.to_frame()
+                    y = y.to_frame()
+                except:
+                    x = x
+                    y = y
                 results = idDict[inID]
                 idDict[outID] = regPlot(y, x, results)
                 finishedPointer.append(thisID)
@@ -152,7 +167,11 @@ def main():
             if instName == 'regression summary':
                 idDict[outID] = idDict[inID].summary()
                 finishedPointer.append(thisID)
-                print (idDict[outID].summary())
+                string2 = str(idDict[outID])
+                string2 = "?"+string2+"?"
+                print (string2, end = "")
+
+
 
         else:
             backwardPointer = list(filter(lambda d: d['target']['id'] == inID, pointer))
