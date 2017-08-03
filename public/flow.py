@@ -23,11 +23,11 @@ def read_in():
 
 def main():
 
-    # with open('test.json') as json_data:
-    #     text = json.load(json_data)
+    with open('test.json') as json_data:
+        text = json.load(json_data)
     # text['cells'][0]['ports']['groups']['out']['attrs']['.port-body']['magnet']="shabi"
     # text['cells'][0]['ports']['groups']['in']['attrs']['.port-body']['magnet']="shabi"
-    text = read_in()
+    # text = read_in()
     
 
 
@@ -47,13 +47,24 @@ def main():
     input2 = []
     dataDict = {}
     data = csvDF('mydata.csv')
+    col1 = in1[0]['data']
+    col2 = in2[0]['data']
 
+    if type(in1[0]['data']) != str:
+        col1 = ','.join(i for i in col1)
+
+    if type(in2[0]['data']) != str:
+        col2 = ','.join(i for i in col2)
+
+
+    print(col1)
+    print(col2)
 
     if in1 != []:
-        input1 =  data[in1[0]['data']]
+        input1 =  data[col1]
         dataDict['input1'] = input1
     if in2 != []:
-        input2 = data[in2[0]['data']]
+        input2 = data[col2]
         dataDict['input2'] = input2
 
 
