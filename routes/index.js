@@ -96,8 +96,8 @@ router.post('/index', function(req, res){
 router.post('/shishi', function(req, res){
   let r = req.body['haha'];
   // fs.writeFile('./test.json', r);
-  console.log(r);
   let thepath = path.resolve('./public/'+'flow.py');
+  thepath = '/Users/yijiaqian/NCSAproject/GPython/public/flow.py';
   console.log(thepath);
   let dataString = '';
   var py = spawn('python3',['-u',thepath]);
@@ -124,16 +124,18 @@ router.post('/shishi', function(req, res){
 
 router.post('/file_upload', function(req, res){
   console.log(__dirname);
-
   console.log(req.files.foo);
+  
   let sampleFile = req.files.foo;
-  let uploadDir = '/home/bowen/GPython/mydata.csv';
+  let uploadDir = '/Users/yijiaqian/NCSAproject/GPython/mydata.csv';
+  
   sampleFile.mv(uploadDir,function(err){
     if (err)
       return res.status(500).send(err);
+    else
+      console.log('success');
   })
-  console.log(req.files.foo.mimetype);
-  console.log(req.files.foo.path);
+  
   res.render('index2', {message: "File has been uploaded! You can view the names variables by clicking the 'summary button'"});
   // fs.writeFile('hello.csv')
 });
@@ -141,14 +143,12 @@ router.post('/file_upload', function(req, res){
 
 
 router.post('/show_summary', function(req, res){
-  thepath = '/home/bowen/GPython/public/show_summary.py';
+  thepath = '/Users/yijiaqian/NCSAproject/GPython/public/show_summary.py';
   let dataString = '';
   var py = spawn('python3',['-u', thepath]);
 
   py.stdout.on('data', function(data){
         dataString += data.toString();
-        console.log("has red");
-        console.log(dataString);
   });
   py.stdout.on('end', function(data){
       res.send(dataString);
