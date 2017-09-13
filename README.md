@@ -5,6 +5,8 @@ To run: clone this repository
 
 #Installation
 
+##Installation
+
 npm install
 
 npm start
@@ -18,7 +20,8 @@ If after you click run the program terminates, and the terminal prints cannot sp
 
 
 
-#Instructions
+##Instructions
+
 After entering the page, click the flower above the 'generate' button to enter the graph making page. 
 
 Then we can upload any csv file into the website, click 'choose your file' and then click 'upload file' to send the csv file to the server.
