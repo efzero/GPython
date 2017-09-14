@@ -96,8 +96,9 @@ router.post('/index', function(req, res){
 router.post('/shishi', function(req, res){
   let r = req.body['haha'];
   // fs.writeFile('./test.json', r);
-  let thepath = path.resolve('./public/'+'flow.py');
-  thepath = '/Users/yijiaqian/NCSAproject/GPython/public/flow.py';
+  let thepath = path.resolve('./public/'+'flow.py');  // .
+  // thepath = '/Users/yijiaqian/NCSAproject/GPython/public/flow.py';
+  //thepath = './public/flow.py';
   console.log(thepath);
   let dataString = '';
   var py = spawn('python3',['-u',thepath]);
@@ -123,19 +124,22 @@ router.post('/shishi', function(req, res){
 
 
 router.post('/file_upload', function(req, res){
-  console.log(__dirname);
-  console.log(req.files.foo);
-  
+  // console.log(__dirname);
+  // console.log(req.files.foo);
+
   let sampleFile = req.files.foo;
-  let uploadDir = '/Users/yijiaqian/NCSAproject/GPython/mydata.csv';
-  
+  // let uploadDir = '/Users/yijiaqian/NCSAproject/GPython/mydata.csv';
+  let uploadDir = path.join(__dirname,'..','mydata.csv');
+  console.log(uploadDir);
+
+
   sampleFile.mv(uploadDir,function(err){
     if (err)
       return res.status(500).send(err);
     else
       console.log('success');
   })
-  
+
   res.render('index2', {message: "File has been uploaded! You can view the names variables by clicking the 'summary button'"});
   // fs.writeFile('hello.csv')
 });
@@ -143,13 +147,18 @@ router.post('/file_upload', function(req, res){
 
 
 router.post('/show_summary', function(req, res){
-  thepath = '/Users/yijiaqian/NCSAproject/GPython/public/show_summary.py';
+  thepath = path.join(__dirname, '..','public/show_summary.py');
+  console.log(thepath);
   let dataString = '';
   var py = spawn('python3',['-u', thepath]);
 
+  /*Here we are saying that every time our node application receives data from the python process output stream
+  (on 'data'), we want to convert that received data into a string and append it to the overall dataString.*/
   py.stdout.on('data', function(data){
         dataString += data.toString();
   });
+
+  /*Once the stream is done (on 'end') we want to simply log the received data to the console.*/
   py.stdout.on('end', function(data){
       res.send(dataString);
   });

@@ -28,7 +28,6 @@ def main():
     # text['cells'][0]['ports']['groups']['out']['attrs']['.port-body']['magnet']="shabi"
     # text['cells'][0]['ports']['groups']['in']['attrs']['.port-body']['magnet']="shabi"
     text = read_in()
-    print(text)
     obj  = list(filter(lambda d: d['type'] == 'cell', text['cells']))
     # print(list(filter(lambda d: d['attrs']['.label']['text'] == 'input1', obj)))
     # print(list(filter(lambda d: d['attrs']['.label']['text'] == 'input1', obj)))
