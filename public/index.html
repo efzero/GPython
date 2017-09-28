@@ -12,9 +12,76 @@
 	<div class="logo">
 	regression calculator
 	</div>
-	<li><a href ="#">home</a></li>
-	<li><a href ="#">about</a></li>
-	<li><a href ="#">feedback</a></li>
+
+
+	<!--<li><a href ="#">home</a></li>-->
+	<!--<li><a href ="#">about</a></li>-->
+	<!--<li><a href ="#">feedback</a></li>-->
+	<button class="b1"onclick="document.getElementById('id01').style.display='block'">Login</button>
+	<button class="b2"onclick="document.getElementById('id02').style.display='block'">sign up</button>
+	<!-- The Modal -->
+	<div id="id01" class="modal">
+		<span onclick="document.getElementById('id01').style.display='none'" 
+	class="close" title="Close Modal">&times;</span>
+	
+		<!-- Modal Content -->
+		<form class="modal-content animate" action="/action_page.php" method="post">
+		
+	
+			<div class="c1">
+				<label>Username</label>
+				<input type="text" placeholder="Enter Username" name="uname" required>
+			</div>
+			<div class="c2">
+				<label>Password</label>
+				<input type="password" placeholder="Enter Password" name="psw" required>
+				</div>
+				<div class="c3">
+				<button type="submit">Login</button>
+				<input type="checkbox" checked="checked"> Remember me
+				</div>
+				<div class="c4">
+				<button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+				<span class="psw">Forgot <a href="#">password?</a></span>
+			</div>
+	
+			<!--<div class="container" style="background-color:#f1f1f1">
+				<button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+				<span class="psw">Forgot <a href="#">password?</a></span>
+			</div>-->
+		</form>
+	</div>
+	<div id="id02" class="modal">
+		<span onclick="document.getElementById('id02').style.display='none'" 
+	class="close" title="Close Modal">&times;</span>
+	
+		<!-- Modal Content -->
+		<form class="modal-content animate" action="/action_page.php" method="post">
+		
+	
+			<div class="c1">
+				<label>Username</label>
+				<input type="text" placeholder="Enter Username" name="uname" required>
+			</div>
+			<div class="c2">
+				<label>Password</label>
+				<input type="password" placeholder="Enter Password" name="psw" required>
+				</div>
+				<div class="c3">
+					<label>Re-enter Password</label>
+					<input type="password" placeholder="Enter Password" name="psw" required>
+					</div>
+			
+			
+			</div>
+	
+			<!--<div class="container" style="background-color:#f1f1f1">
+				<button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+				<span class="psw">Forgot <a href="#">password?</a></span>
+			</div>-->
+		</form>
+	</div>
+	
 
 	</ul>
 	<div class="banner">
