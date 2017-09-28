@@ -73,8 +73,8 @@ app.use(function(err, req, res, next) {
 
 var server = http.createServer(app);
 
-server.listen(9090, '0.0.0.0', function(){
-  console.log("Server running at http://localhost:9090");
+server.listen(8888, '0.0.0.0', function(){
+  console.log("Server running at http://localhost:8080");
 });
 
 

@@ -7,10 +7,13 @@ Created on Tue Jul 18 15:05:00 2017
 
 import sys
 import json
-import matplotlib.pyplot as plt
 
 from Regression import regression, summary_stat, regPlot, columnNames, frameFromCol, regPlot, corr
 from Conversion import csvDF
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+
 
 #Need to read and Update JSON from website
 

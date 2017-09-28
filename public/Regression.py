@@ -9,7 +9,6 @@ import pandas as pd
  #import numpy as np
 import statsmodels.api as sm
 
-
 # from sklearn.linear_model import LinearRegression
 
 
@@ -47,6 +46,8 @@ def regression(y, x, constant = True):
     return results
 
 #plot 1D scatter & regression plot. I.E. each x variable with y plotting.
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 def regPlot (y, x, results):
@@ -61,7 +62,7 @@ def regPlot (y, x, results):
         plt.title("Scatter & Regression")
         plt.ylabel(y.columns[0])
         plt.xlabel(x.columns[i])
-        fig.savefig('/home/bowen/GPython/public/images/scatterRegression_{}.png'.format(i), bbox_inches='tight')
+        fig.savefig('public/images/scatterRegression_{}.png'.format(i), bbox_inches='tight')
     return None
 
 
@@ -80,9 +81,9 @@ def corr(df, outputForm):
         ax.set_xticks(np.arange(corr.shape[1])+0.5, minor=False)
         plt.colorbar(heatmap)
         ax.set_yticklabels(df.columns, minor=False)
-        ax.set_xticklabels(df.columns, minor=False, rotation='vertical')
-        fig.savefig('/home/bowen/GPython/public/images/corrHeatmap.png', bbox_inches='tight')
-        plt.show()
+        ax.set_xticklaabels(df.columns, minor=False, rotation='vertical')
+#        fig.savefig('images/corrHeatmap.png', bbox_inches='tight')
+#        plt.show()
         return None
     elif outputForm == 'mh':
         fig, ax = plt.subplots()
@@ -99,8 +100,8 @@ def corr(df, outputForm):
                  horizontalalignment='center',
                  verticalalignment='center',
                  )
-        fig.savefig('/home/bowen/GPython/public/images/corrHeatmap.png', bbox_inches='tight')
-        plt.show()
+ #       fig.savefig('images/corrHeatmap.png', bbox_inches='tight')
+ #       plt.show()
         return None
     else:
         return None
