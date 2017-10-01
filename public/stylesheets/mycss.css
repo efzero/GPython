@@ -38,6 +38,10 @@ html, body {
   /*width: 300px;*/
 }
 
+.filearea{
+  border-bottom: 1px;
+}
+
 .button {
     background-color: #333333;
     border: 1px solid #ffcccc;
@@ -50,6 +54,7 @@ html, body {
     font-size: 12px;
 
     margin: 1px;
+    margin-bottom: 10px;
     cursor: pointer;
 }
 
@@ -89,31 +94,31 @@ html, body {
   margin: 1px;
   padding: 0px;
   color:#00008B;
+  margin-right: 20px;
 }
 
 .choose:hover{
   text-decoration: underline;
 }
 
-
-
 .paper{
-  height: 100%;
-  width: 600px;
+  height: 1600px;
+  width: 100%;
 }
+
 
 .col3{
   height:1600px;
-  width: 660px;
+  width: 36%;
   float:left;
 }
 .col4{
   height:1600px;
-  width: 600px;
+  width: 64%;
   float:left;
   border-left: 2px solid #505051;
   white-space: pre-wrap;
-  /*border-right: 2px solid #505051;*/
+
 }
 .footer {
   background-color: white;
@@ -127,23 +132,23 @@ html, body {
 
 .col{
   width : 100%;
-  height: 250px;
+  height: 450px;
   border-bottom: 2px solid #505051;
   background-color: #EAE7E0
 }
 .col1{
   width: 36%;
-  height: 250px;
+  height: 450px;
   float: left;
 }
 .col2{
   width: 64%;
-  height: 250px;
+  height: 450px;
   float: left;
-  /*vertical-align: bottom;*/
+  vertical-align: bottom;
 
   background-image: url('/images/hello.jpg');
-  background-size: 100% 250px; 
+  background-size: 100% 450px; 
   /*display: inline-block;*/
   text-align: bottom;
   font-size: 18px;

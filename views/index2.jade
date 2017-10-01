@@ -27,29 +27,40 @@ html
         .col1
           form(name='python', method='POST')
             input(type='submit', value='Run a single cell', class = 'button')
-          form(method='POST', action='/file_upload', enctype='multipart/form-data')
+          form(method='POST', action='/file_upload', enctype='multipart/form-data', class = 'filearea')
             label.custom-file-upload(for='file-upload')
-              p( class = 'choose')
-                | Choose your file
+              span#file1( class = 'choose')
+                | Choose your first file      
               input#file-upload(type='file', name = 'foo' style='display:none;')
+            label.custom-file-upload(for = 'file-upload2')
+              span#file2(class = 'choose')
+                | Choose your second file
+              //- p(class = 'choose')
+              //-   | Choose your second file
+              input#file-upload2(type = 'file', name = 'foo2', style = 'display:none;', )
 
             //- input(type='file', name='foo', size='50' )
-            input(type='submit', value='Upload File' class = 'button'  onclick = 'seek();')
+            input(type='submit', value='Upload Files' class = 'button'  onclick = 'seek();')
+            br 
             span #{message}
           form(action='/index', method='POST', name='hello', onsubmit='savejson();')
             | Paste your JSON file here: 
             input#hh(type='text', name='JSON file')
             input(type='submit', name='Run', value='Run', class = 'button' )
-            p
-              | Click on the paper below to create a cell, right click to delete the cell. Click Run to run your graph, or you can paste the json file of a graph above and run that graph.
+            //p
+            //  | Click on the paper below to create a cell, right click to delete the cell. Click Run to run your graph, or you can paste the json file of a graph above and run that graph.
           form(action = "javascript:gJ();")
             input(type ="submit" value ='Run' class = 'button')
           form(action = "javascript:loadRegression();")
             input(type = 'submit' value = 'Load Regression Template' class = 'button')
+          form()
+            input(type = 'submit' value = 'Load Summary Template' class = 'button')
+          form()
+            input(type = 'submit' value = 'Load Train Test Split Template' class = 'button')
           
         .col2
           form(action = "javascript:show();")
-            input(id = 'hahaha', type = 'submit', name = 'why2', value = 'show the summary of the dataset', class = 'button')
+            input(id = 'hahaha', type = 'submit', name = 'why2', value = 'show the summary of the first dataset', class = 'button')
           .helo
             | The data summary will be shown here
           .dropDown(style= 'display: none;')
@@ -61,7 +72,27 @@ html
             input(type = 'submit', name = 'ha', value = 'create an output cell', class = 'button3')
           span(id = 'infodata')  #{datainfo} 
 
-        script. 
+        script.
+          $("selectform").on('focus', function(ev){
+            console.log('saving value');
+          });
+
+
+          $("input[name = 'foo']").on("change", function(ev){
+            //- var prev = $(this).data();
+            //- for (var i in prev) console.log(i);
+            //- console.log(prev);
+            var fileinput = document.getElementById('file-upload').value.replace(/^.*[\\\/]/, '');
+            var thetext = fileinput == ''?'Choose your first file':fileinput;         
+            $('#file1').text(thetext);
+          });
+
+          $("input[name = 'foo2']").on("change", function(ev){
+            var fileinput = document.getElementById('file-upload2').value.replace(/^.*[\\\/]/, '');
+            var thetext = fileinput == ''?'Choose your second file':fileinput;         
+            $('#file2').text(thetext);
+          });
+
           $("selectform").submit(function(event){
             event.preventDefault();
             console.log('submitting');
@@ -105,7 +136,7 @@ html
             var graph = new joint.dia.Graph;
             var paper = new joint.dia.Paper({
               el: $('#paper'),
-              width: 660, height: 1600, gridSize: 1,
+              width: $('.paper').width(), height: $('.paper').height(), gridSize: 1,
               model: graph,
               background: {
               color: '#e6e6e6'
