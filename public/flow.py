@@ -57,13 +57,9 @@ def main():
         input1 =  data[col1]
         dataDict['input1'] = input1
 
-
     if in2 != []:
         input2 = data[col2]
         dataDict['input2'] = input2
-
-
-
 
     singelObj = list(filter(lambda d: d['type'] == 'cell', text['cells']))
     groupedObj = []  #groupedObj will be a sub-object of singelObj
@@ -71,6 +67,7 @@ def main():
     # print(singelObj)
     # print(pointer)
     idDict = {}
+    print('success')
 
     def IDmatchOBJ(objName):
         idDict[list(filter(lambda d: d['attrs']['.label']['text'] == objName, singelObj))[0]['id']] = dataDict[objName]
