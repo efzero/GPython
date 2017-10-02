@@ -105,7 +105,7 @@ html
             var graph = new joint.dia.Graph;
             var paper = new joint.dia.Paper({
               el: $('#paper'),
-              width: 660, height: 1600, gridSize: 1,
+              width: $('.paper').width(), height: $('.paper').height(), gridSize: 1,
               model: graph,
               background: {
               color: '#e6e6e6'
@@ -197,9 +197,6 @@ html
 
 
             //click on the paper to create an output cell
-            paper.on('blank:pointerclick', function(element, ev, x,y){
-              promptOutputCell();
-            });
 
             //double click on the cell to change the data inside the cell from the dropdown menu
             //double click on the link to change the name of the link

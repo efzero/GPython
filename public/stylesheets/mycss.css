@@ -98,23 +98,24 @@ html, body {
 
 
 .paper{
-  height: 100%;
-  width: 600px;
+  height: 1600px;
+  width: 100%;
 }
 
 .col3{
   height:1600px;
-  width: 660px;
+  width: 44%;
   float:left;
 }
 .col4{
   height:1600px;
-  width: 600px;
+  width: 44%;
   float:left;
   border-left: 2px solid #505051;
   white-space: pre-wrap;
   /*border-right: 2px solid #505051;*/
 }
+
 .footer {
   background-color: white;
   width: 100%;
@@ -132,12 +133,12 @@ html, body {
   background-color: #EAE7E0
 }
 .col1{
-  width: 36%;
+  width: 44%;
   height: 250px;
   float: left;
 }
 .col2{
-  width: 64%;
+  width: 56%;
   height: 250px;
   float: left;
   /*vertical-align: bottom;*/
