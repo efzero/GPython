@@ -4,6 +4,20 @@ Created on Thu Oct  5 11:52:18 2017
 
 @author: kay75
 """
+'''
+New functions:
+-Combine dataframe vertically
+-combine dataframe horizontally
+-generate dataframe from selected column names
+- element-wise +/-/*// manipulation of dataframe
+- A few functions on KNN algorithm:
+    a. train_test split
+    b. train KNN model
+     c. test KNN model
+     d. using KNN model to do prediction/classification
+
+'''
+
 import pandas as pd
 import sklearn.cross_validation as cv
 from sklearn import neighbors as nb
