@@ -37,7 +37,7 @@ html
             input(type='submit', value='Upload File' class = 'button'  onclick = 'seek();')
             span #{message}
           form(action='/index', method='POST', name='hello', onsubmit='savejson();')
-            | Paste your JSON file here: 
+            | Paste your JSON file here:
             input#hh(type='text', name='JSON file')
             input(type='submit', name='Run', value='Run', class = 'button' )
             p
@@ -46,7 +46,7 @@ html
             input(type ="submit" value ='Run' class = 'button')
           form(action = "javascript:loadRegression();")
             input(type = 'submit' value = 'Load Regression Template' class = 'button')
-          
+
         .col2
           form(action = "javascript:show();")
             input(id = 'hahaha', type = 'submit', name = 'why2', value = 'show the summary of the dataset', class = 'button')
@@ -59,9 +59,9 @@ html
             input(type = 'submit', name = 'hahahaha', value = 'create a data cell', class = 'button2')
           form(action = "javascript:promptOutputCell();")
             input(type = 'submit', name = 'ha', value = 'create an output cell', class = 'button3')
-          span(id = 'infodata')  #{datainfo} 
+          span(id = 'infodata')  #{datainfo}
 
-        script. 
+        script.
           $("selectform").submit(function(event){
             event.preventDefault();
             console.log('submitting');
@@ -89,7 +89,7 @@ html
               }
               //- $('.helo').css('border','2px solid black');
               $('.dropDown').show();
-            
+
             });
           }
       script.
@@ -97,7 +97,7 @@ html
         var a = prompt("enter the link name");
         document.getElementById('links').value = a;
         console.log(document.getElementById('links').value);
-        } 
+        }
       .col3
         #paper.paper
           #myholder
@@ -219,7 +219,7 @@ html
               cell.prop('labels/0/attrs/text/text', text2);
               }
             });
-            
+
             //right click on the cell to delete the cell
             paper.on('cell:contextmenu', function(element, ev, x, y){
               var cell = element.model;
@@ -275,7 +275,7 @@ html
               cell2.translate(50,0);
               graph.addCell(cell2);
 
-              
+
               var cell3 = createOutputCell('regsum');
               cell3.translate(250,0);
               graph.addCell(cell3);
@@ -307,7 +307,7 @@ html
             //run the graph in the backend
             function gJ(){
               var j = JSON.stringify(graph);
-            
+
               var str = "hello, my name is Bowen";
               $.ajax({
                 type:'POST',
@@ -341,7 +341,7 @@ html
 
                         st = st + str[j];
                         st = st + "\n\n\n";
-                      } 
+                      }
                     }
                     $('#xiaoshabi').text(st);
 
