@@ -1,0 +1,224 @@
+body{
+	margin: 0;
+	padding:0;
+	font-family:'Arial',serif;
+	overflow-x: hidden;
+	background-size: cover
+
+}
+.nav{
+	background-color: #ffffff;
+	color: #000000;
+	list-style: none;
+	text-align: right;
+	padding: 20px 0 0 0;
+
+
+}
+/*.nav>li{
+	display: inline-block;
+	padding: 0  25px 0 25px;
+	font-size: 20px;
+
+}
+.nav>li>a{
+	text-decoration: none;
+	color: #000000;
+}
+.nav>li>a:hover{
+	color: #c1c1c1
+}*/
+.logo{
+	color: #000000;
+	float: left;
+	font-size: 20px;
+	padding: 0  25px 0 25px;
+
+}
+
+
+.logo>a{
+	text-decoration: none;
+	color: #000000;
+}
+.banner{
+	width: 100%;
+	display:block;
+
+
+
+
+}
+.banner>.banner-image{
+	width: 100%;
+	display:block;
+	float:left;
+
+
+
+}
+.function{
+
+	text-align: center;
+	padding-top: 430px;
+
+}
+.function>li{
+	display: inline-block;
+	padding: 0  100px 0 100px;
+	padding-top: 50px;
+	font-size: 20px;
+	text-align: center;
+	text-decoration: none;
+
+}
+.f{
+
+	font-size: 20px;
+	text-align: center;
+}
+
+
+.form1{
+  width: 100%;
+}
+
+.butt{
+  width: 100%;
+  height: 175px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+	/*padding-top: 30px  ;
+	padding-left: 650px;*/
+}
+
+
+
+
+
+
+.img {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.butt:active {
+  background-color: #ffffff;
+  transform: translateY(4px);
+}
+.ger{
+  padding-top: 0px;
+  text-align: center;
+  width: 100%;
+	font-size: 20px;
+}
+.modal {
+    display: none; /* Hidden by default */
+    position: center; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+   /* background-color: rgb(0,0,0);  Fallback color */
+	/*background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+	background-color:rgba(0,0,0,0.4);
+	padding-top: 60px;
+	
+}
+
+/* Modal Content/Box */
+.modal-content {
+	/*background-color: #fefefe;*/
+
+	background-color:rgba(0,0,0,0.4)f;
+	
+	
+    margin: 5px auto; /* 15% from the top and centered */
+    
+	width: 100%; /* Could be more or less, depending on screen size */
+	height: 100%;
+}
+
+/* The Close Button */
+.close {
+    /* Position it in the top right corner outside of the modal */
+    position: absolute;
+    right: 25px;
+    top: 0; 
+    color: #000;
+    font-size: 35px;
+    font-weight: bold;
+}
+
+/* Close button on hover */
+.close:hover,
+.close:focus {
+    color: red;
+    cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+    -webkit-animation: animatezoom 0.6s;
+    animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+    from {-webkit-transform: scale(0)} 
+    to {-webkit-transform: scale(1)}
+}
+
+@keyframes animatezoom {
+    from {transform: scale(0)} 
+    to {transform: scale(1)}
+}
+.b1{
+	background-color: #257283; 
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+.b2{
+	background-color: #257283; 
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+.c1{
+	margin: auto;
+    width: 300px;
+    height: 30px;
+    
+}
+.c2{
+	margin: auto;
+    width: 300px;
+    height: 30px;
+    
+}
+.c3{
+	margin: auto;
+    width: 300px;
+    height: 30px;
+    
+}
+
+.c4{
+	margin: auto;
+    width: 300px;
+    height: 30px;
+    
+}

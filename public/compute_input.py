@@ -32,8 +32,7 @@ def main():
     # print("HelloWorld")
     # print(A.T)
 
-    # table = pd.read_csv("/home/bowen/GPython/public/mydata.csv")
-    table = pd.read_csv("../mydata.csv")
+    table = pd.read_csv("/home/bowen/GPython/public/mydata.csv")
     mydata = table.as_matrix()
     col_1 = mydata[:,0]
     col_2 = mydata[:,1]

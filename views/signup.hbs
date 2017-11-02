@@ -1,0 +1,58 @@
+<!-- views/signup.ejs -->
+<!doctype html>
+<html>
+<head>
+	<title>Node Authentication</title>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
+</head>
+<body>
+
+	<div class="ui inverted menu">
+		<a class="item" href="/">Regression Calculator</a>
+		<div class="right menu">
+			<a class="item" href="/">Home</a>
+			<a class = "active item" href="/signup">Register</a>
+			<a class = "item" href="/login">Sign in</a>
+			<li ng-controller="logoutController"><a ng-click='logout()'>Log out</a></li>
+			<a href="profile">{{ navvm.currentUser.name }}</a>
+		</div>
+	</div>
+
+
+<div class="col-sm-6 col-sm-offset-3">
+
+	<h1><span class="fa fa-sign-in"></span> Signup</h1>
+
+	<!-- show any messages that come back with authentication -->
+	{{#if message.length}}
+			<div class="alert alert-danger"> {{message}}</div>
+	{{/if}}
+
+	<!-- LOGIN FORM -->
+	<form action="/signup" method="post">
+		<div class="form-group">
+			<label>Username</label>
+			<input type="text" class="form-control" name="username">
+		</div>
+		<div class="form-group">
+			<label>Password</label>
+			<input type="password" class="form-control" name="password">
+		</div>
+		<button type="submit" class="btn btn-warning btn-lg">Signup</button>
+	</form>
+
+	<hr>
+
+	<p>Already have an account? <a href="/login">Login</a></p>
+	<p>Or go <a href="/">home</a>.</p>
+
+</div>
+
+
+</body>
+</html>

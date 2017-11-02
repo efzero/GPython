@@ -1,79 +1,63 @@
 var express = require('express');
+var session  = require('express-session');
 var path = require('path');
 var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var morgan = require('morgan');
 var http = require('http');
-var routes_main = require('./routes/index');
-// var users = require('./routes/users');
+var routes = require('./routes/index');
+var users = require('./routes/users');
 var fs = require('fs');
 var path = require('path');
 var spawn = require('child_process').spawn;
-
-//mean auth
-var expressSession = require('express-session');
-var mongoose = require('mongoose');
-var hash = require('bcrypt-nodejs');
+var hbs = require('hbs');
 var passport = require('passport');
-var localStrategy = require('passport-local' ).Strategy;
+var flash = require('connect-flash');
 
-// mongoose
-mongoose.connect('mongodb://localhost/mean-auth');
-
-// user schema/model
-var User = require('./routes/users');
-
-// create instance of express
 var app = express();
+//add
+var port = process.env.PORT || 8080;
 
-// require routes
-var routes = require('./routes/api');
 
-// define middleware
-app.use(express.static(path.join(__dirname, '/client')));
+// configuration ===============================================================
+// connect to our database
+
+require('./config/passport')(passport); // pass passport for configuration
+
 
 // view engine setup
+hbs.registerPartials(__dirname + '/views/partials');
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'hbs'); // set up ejs for templating
+
+// set up our express application
+app.use(morgan('dev')); // log every request to the console
 
 app.use(favicon());
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(require('express-session')({
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: false
+app.use(bodyParser.urlencoded({
+	extended: true
 }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));	//don't comment this, it will help you find the css for hbs files
+app.use('/', routes);
+app.use('/users', users);
+
+// required for passport
+app.use(session({
+	secret: 'vidyapathaisalwaysrunning',
+	resave: true,
+	saveUninitialized: true
+ } )); // session secret
 app.use(passport.initialize());
-app.use(passport.session());
-app.use(express.static(path.join(__dirname, 'public')));
-//try delete
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
 
-app.use('/', routes_main );
-app.use('/users', User);
-
-
-// configure passport
-passport.use(new localStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
-// app.use(multer({ dest: '/tmp/'}));
-
-// app.post('/regression', function(req, res){
-//   console.log("doing regression");
-//   runpython('/compute_input.py', req, res);
-// })
-//
-
-// routes
-app.use('/user/', routes);
-
-app.get('/', function(req, res) {
-  res.sendfile(path.join(__dirname, './client', 'index.html'));
-});
+// routes ======================================================================
+require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
 
 
 
@@ -110,19 +94,10 @@ app.use(function(err, req, res, next) {
 });
 
 
-
-// var debug = require('debug')('passport-mongo');
-// app.set('port', process.env.PORT || 3000);
-//
-// var server = app.listen(app.get('port'), function() {
-//   debug('Express server listening on port ' + server.address().port);
-// });
-
-
 var server = http.createServer(app);
 
-server.listen(9090, '0.0.0.0', function(){
-  console.log("Server running at http://localhost:9090");
+server.listen(8080, '0.0.0.0', function(){
+  console.log("Server running at http://localhost:8080");
 });
 
 

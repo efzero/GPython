@@ -1,15 +1,9 @@
-// user model
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var passportLocalMongoose = require('passport-local-mongoose');
+var express = require('express');
+var router = express.Router();
 
-
-var User = new Schema({
-  username: String,
-  password: String
+/* GET users listing. */
+router.get('/', function(req, res) {
+  res.send('respond with a resource');
 });
 
-User.plugin(passportLocalMongoose);
-
-
-module.exports = mongoose.model('users', User);
+module.exports = router;

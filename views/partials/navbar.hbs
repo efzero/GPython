@@ -1,0 +1,10 @@
+	<div class="ui inverted menu">
+		<a class="item" href="/">Regression Calculator</a>
+		<div class="right menu">
+			<a class="item" href="/">Home</a>
+			<a class = "item" href="/signup">Register</a> 
+			<a class = "active item" href="/login">Sign in</a>
+			<li ng-controller="logoutController"><a ng-click='logout()'>Log out</a></li>
+			<a href="profile">{{ navvm.currentUser.name }}</a>
+		</div>
+	</div>

@@ -18,9 +18,11 @@ from Conversion import csvDF
 
 def main():
 
-    with open('test.json') as json_data:
-        text = json.load(json_data)
+ #   with open('test.json') as json_data:
+#        text = json.load(json_data)
     # text['cells'][0]['ports']['groups']['out']['attrs']['.port-body']['magnet']="shabi"
+    # text['cells'][0]['ports']['groups']['in']['attrs']['.port-body']['magnet']="shabi"
+ #   print('nihao')
 
 
     obj  = list(filter(lambda d: d['type'] == 'cell', text['cells']))
@@ -120,7 +122,7 @@ def main():
                     #and "GroupAsY" when grouping. As it will take the first two
                     #grouped object as x and y.
                     x = idDict[idDict[inID][0]]
-                    y = idDict[idDict[inID][1]]
+                    y = idDict[idDict[inID][1]] 
                     #check if the y is a single set of data before running:
                     if len(y.columns) == 1:
                         idDict[outID] = regression(y, x)
