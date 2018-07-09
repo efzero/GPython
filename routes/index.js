@@ -27,7 +27,7 @@ var runregression = function(name, req, res){
   thepath = path.resolve('./public/'+name);
   console.log(thepath);
   var dataString = '';
-  var py = spawn('python3',['-u', thepath]);
+  var py = spawn('python',['-u', thepath]);
   py.stdout.on('data', function(data){
         dataString += data.toString();
         console.log("has red");
@@ -68,7 +68,7 @@ router.post('/index', function(req, res){
   thepath = path.resolve('./public/'+'flowAssistant.py');
   // console.log(thepath);
   var dataString = '';
-  var py = spawn('python3',['-u', thepath]);
+  var py = spawn('python',['-u', thepath]);
   py.stdin.write(j);
   py.stdin.end();
   py.stdout.on('data', function(data){
@@ -98,7 +98,7 @@ router.post('/shishi', function(req, res){
   var thepath = path.resolve('./public/'+'flow.py');  
   console.log(thepath);
   var dataString = '';
-  var py = spawn('python3',['-u',thepath]);
+  var py = spawn('python',['-u',thepath]);
   py.stdin.write(r);
   py.stdin.end();
   py.stdout.on('data',function(data){
@@ -140,7 +140,7 @@ router.post('/show_summary', function(req, res){
   thepath = path.join(__dirname, '..','public/show_summary.py');
   console.log(thepath);
   var dataString = '';
-  var py = spawn('python3',['-u', thepath]);
+  var py = spawn('python',['-u', thepath]);
 
   /*Here we are saying that every time our node application receives data from the python process output stream
   (on 'data'), we want to convert that received data into a string and append it to the overall dataString.*/

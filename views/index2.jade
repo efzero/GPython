@@ -17,6 +17,7 @@ html
     script(src='/javascripts/backbone-min.js')
     script(src='/javascripts/joint.js')
     script(src='/javascripts/joint.shapes.devs.js')
+    script(src='/javascripts/helpers.js')
   body
     .head
       .fonts
@@ -25,12 +26,13 @@ html
     .container
       .col
         .col1
-          form(name='python', method='POST')
-            input(type='submit', value='Run a single cell', class = 'button')
+          form(name='python', action = 'javascript:upload()')
+            input(type = 'file', id = 'uploadjson')
+            input(type='submit', value='upload graph json', class = 'button')
           form(method='POST', action='/file_upload', enctype='multipart/form-data')
             label.custom-file-upload(for='file-upload')
               p( class = 'choose')
-                | Choose your file
+                | Choose your csv file
               input#file-upload(type='file', name = 'foo' style='display:none;')
 
             //- input(type='file', name='foo', size='50' )
@@ -46,6 +48,8 @@ html
             input(type ="submit" value ='Run' class = 'button')
           form(action = "javascript:loadRegression();")
             input(type = 'submit' value = 'Load Regression Template' class = 'button')
+          form(action = "javascript:save_graph(graph);")
+            input(type = 'submit' value = 'Save' class = 'button')
           
         .col2
           form(action = "javascript:show();")
@@ -134,8 +138,6 @@ html
               }
             });
 
-
-
             //function to create a cell that contains data from the data summary dropdown
             function createdataCell(){
                 var value = $('#selection').val();
@@ -153,7 +155,6 @@ html
                 size: {width: 80, height: 80},
                 inPorts: ['in1'],
                 data: value,
-                type: 'cell',
                 outPorts: ['out1'],
                 attrs: {
                   '.label': {text: name, 'ref-x':.4, 'ref-y': .2},
@@ -174,7 +175,6 @@ html
                 position:{x:250, y:300},
                 size: {width: 80, height: 80},
                 inPorts: ['in1'],
-                type: 'cell',
                 outPorts: ['out1'],
                 attrs: {
                   '.label': {text: name, 'ref-x':.4, 'ref-y': .2},
@@ -232,6 +232,8 @@ html
             console.log(jSon);
             document.getElementById('hh').value = jSon;
             }
+
+            function load_from_json(){}
 
 
             //load the regession template
@@ -361,5 +363,5 @@ html
         form(action = "javascript:gJ();")
           input(type ="submit")
         p  Special Thanks: Dr. Matias Carrasco Kind
-        p  Authors: Bowen Song, Jiayin Lu, Yijia Qian, Dinyang Chen
+        p  Authors: Bowen Song, Jiayin Lu, Yijia Qian, Keye Zhang
         p  We are math students from UIUC
