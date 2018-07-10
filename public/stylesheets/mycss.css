@@ -16,6 +16,17 @@ html, body {
 
 }
 
+.editor{
+  position: absolute;
+  left: 700px;
+  top: 400px;
+  z-index: 2;
+  display: none;
+  border: 3px solid black;
+  width: 200px;
+  height: 400px;
+}
+
 .fonts{
   margin: 0px;
   padding: 0px;
@@ -30,13 +41,47 @@ html, body {
   height: 1900px;
   border-bottom: 1.2px solid black
 }
-
+.circle{
+  background-image: '/images/circle.jpg';
+  /* width: 30px; */
+  /* height:10px; */
+}
 
 .col2>span{
   /*display: flex;*/
   font-size: 10px;
   /*width: 300px;*/
 }
+
+
+#close_image1{
+  display: inline-block;
+  height: 50px;
+  width: 50px;
+  margin: 10px; 
+}
+
+#close_image2{
+  display: inline-block;
+  height: 50px;
+  width: 50px;
+  margin: 10px; 
+}
+
+#close_image3{
+  display: inline-block;
+  height: 50px;
+  width: 50px;
+  margin: 10px; 
+}
+
+#close_image4{
+  display: inline-block;
+  height: 50px;
+  width: 50px;
+  margin: 10px; 
+}
+
 
 .button {
     background-color: #333333;
@@ -52,6 +97,19 @@ html, body {
     margin: 1px;
     cursor: pointer;
 }
+
+.nametag{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 3;
+  border: 1px black;
+  /* width : 100%; */
+  display: none;
+
+  
+}
+
 
 .button2 {
     background-color: #00008B;
@@ -86,7 +144,8 @@ html, body {
 
 .choose{
   font-size: 15px;
-  margin: 1px;
+  margin-right: 15px;
+  /* margin-bottom: 100px; */
   padding: 0px;
   color:#00008B;
 }
@@ -100,21 +159,23 @@ html, body {
 .paper{
   height: 1600px;
   width: 100%;
+
 }
 
 .col3{
   height:1600px;
-  width: 44%;
+  width: 100%;
   float:left;
+  z-index: 1;
 }
-.col4{
+/* .col4{
   height:1600px;
   width: 44%;
   float:left;
   border-left: 2px solid #505051;
   white-space: pre-wrap;
   /*border-right: 2px solid #505051;*/
-}
+
 
 .footer {
   background-color: white;
@@ -133,12 +194,12 @@ html, body {
   background-color: #EAE7E0
 }
 .col1{
-  width: 44%;
+  width: 50%;
   height: 300px;
   float: left;
 }
 .col2{
-  width: 56%;
+  width: 50%;
   height: 300px;
   float: left;
   /*vertical-align: bottom;*/

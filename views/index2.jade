@@ -24,15 +24,32 @@ html
         p
           | This is an interactive graphing tool for running Python scripts and analyzing data
     .container
+
+      #editor.editor
+        p
+          | Select the type of the cell you want to insert
+        input(type = 'image', value = 'circle', src = '/images/circle.jpg', id = 'close_image1', onclick = 'javascript:change_state(this)')
+        input(type = 'image', value = 'rectangle', src = '/images/square.gif', id = 'close_image2', onclick = 'javascript:change_state(this)')
+        input(type = 'image', value = 'dlink', src = '/images/link.png', id = 'close_image3', onclick = 'javascript:change_state(this)')
+        input(type = 'image', value = 'link', src = '/images/line.png', id = 'close_image4',onclick = 'javascript:change_state(this)')
+      .nametag
+        form(name = 'cell_name', action = "javascript:void(0)", id = 'change_cell_name')
+          | Enter the name of the cell
+          input(type = 'text',  name = 'enter_name')
+          input(type = 'submit', value = 'Enter', onclick = 'javascript:createCustomCell(this)')
+      
       .col
         .col1
           form(name='python', action = 'javascript:upload()')
-            input(type = 'file', id = 'uploadjson')
+            label.custom-file-upload(for='uploadjson')
+              span( class = 'choose')
+                | Choose your json graph file           
+            input(type = 'file', id = 'uploadjson', style = 'display:none')
             input(type='submit', value='upload graph json', class = 'button')
           form(method='POST', action='/file_upload', enctype='multipart/form-data')
             label.custom-file-upload(for='file-upload')
-              p( class = 'choose')
-                | Choose your csv file
+              span( class = 'choose')
+                | Choose your csv file            
               input#file-upload(type='file', name = 'foo' style='display:none;')
 
             //- input(type='file', name='foo', size='50' )
@@ -50,6 +67,9 @@ html
             input(type = 'submit' value = 'Load Regression Template' class = 'button')
           form(action = "javascript:save_graph(graph);")
             input(type = 'submit' value = 'Save' class = 'button')
+
+          input(type = 'submit', value = 'NaN', id = 'display_option', style = 'display:none')
+
           
         .col2
           form(action = "javascript:show();")
@@ -63,6 +83,8 @@ html
             input(type = 'submit', name = 'hahahaha', value = 'create a data cell', class = 'button2')
           form(action = "javascript:promptOutputCell();")
             input(type = 'submit', name = 'ha', value = 'create an output cell', class = 'button3')
+
+          input(id = 'edit', type = 'submit', name = 'na', value = 'show the graph editor', class = 'button', onclick = 'javascript:editor()')
           span(id = 'infodata')  #{datainfo} 
 
         script. 
@@ -96,7 +118,14 @@ html
             
             });
           }
+
       script.
+        dragElement(document.getElementById("editor"));
+
+      script.
+        console.log(document.getElementById('editor'));
+        console.log(document.getElementById('close_image').value)
+
         function changeval(){
         var a = prompt("enter the link name");
         document.getElementById('links').value = a;
@@ -137,6 +166,29 @@ html
                 return sourceMagnet != targetMagnet;
               }
             });
+            //- paper.on('cell:pointerup', function (cellView, evt) {
+            //-   var elem = cellView.model
+            //-   var source = elem.get('source')
+            //-   var target = elem.get('target')
+            //-   if (elem instanceof joint.dia.Link && (!source.id || !target.id)) {
+            //-       elem.remove()
+            //-   }
+            //- })
+
+            function createLink(x, y, name){
+
+              var link = new joint.dia.Link({
+                attrs: {
+                   '.marker-target': { d: 'M 10 0 L 0 5 L 10 10 z' }},
+                labels: [{position: .5, attrs: {
+                  text: {text: name}
+                }}],
+                source: {x: x, y:y},
+                target: {x: x + 200, y:y}                
+              })
+              console.log(link);
+              return link;
+            }
 
             //function to create a cell that contains data from the data summary dropdown
             function createdataCell(){
@@ -146,6 +198,7 @@ html
                 graph.addCell(cell);
 
             }
+            
 
             //function to return a datacell given the dtata and the name of the cell
             function dataCell(value,name){
@@ -201,20 +254,26 @@ html
             //double click on the cell to change the data inside the cell from the dropdown menu
             //double click on the link to change the name of the link
             paper.on('cell:pointerdblclick', function(element, ev, x,y){
-            var cell = element.model;
+              var cell = element.model;
+
+              console.log(cell.get('attrs'));
             //- console.log(cell.get('attrs')['.label'] == undefined);
-            if (cell.get('attrs')['.label'] != undefined){
-              let string = $('#selection').val();
-              console.log(string);
-              if (cell.get('data') != null || cell.get('data') != undefined){
-                cell.prop('data', string);
+              if (cell.get('attrs') != undefined){
                 console.log('changed');
+                var text2 = prompt("please enter the cell's name")
+                let string = $('#selection').val();
+                //- console.log(string);
+                //- console.log(cell.get('attrs').text);
+                cell.prop('attrs/text/text', text2);
+                if (cell.get('data') != null || cell.get('data') != undefined){
+                  cell.prop('data', string);
+                  console.log('changed');
+                }
               }
-            }
-            else {
-              var text2 = prompt("please enter the link's name")
-              cell.prop('labels/0/attrs/text/text', text2);
-              }
+              else {
+                var text2 = prompt("please enter the link's name")
+                cell.prop('labels/0/attrs/text/text', text2);
+                }
             });
             
             //right click on the cell to delete the cell
@@ -225,6 +284,19 @@ html
 
             });
 
+            paper.on('blank:pointerclick', function(evt, x, y){
+              console.log('x' + x);
+              console.log('y' + y)
+              var state = document.getElementById('display_option');
+              console.log(state.value);
+              $('.nametag').css({top: y + 360  + 'px', left: x + 'px', position: 'absolute'});
+              $('.nametag').show();
+
+              console.log($('.nametag').css('z-index'));
+              //- console.log($('.col3').css('z-index'));
+
+            })
+
 
             function savejson(){
             console.log(graph);
@@ -233,7 +305,7 @@ html
             document.getElementById('hh').value = jSon;
             }
 
-            function load_from_json(){}
+          
 
 
             //load the regession template
@@ -354,14 +426,14 @@ html
 
               });
             }
-      .col4
-        p #{output}
-        p#xiaoshabi The output of the Python scripts will be displayed here
-        img.sdf(src = path3 width = '300' height = '300')
+      //- .col4
+      //-   p #{output}
+      //-   p#xiaoshabi The output of the Python scripts will be displayed here
+      //-   img.sdf(src = path3 width = '300' height = '300')
 
-      .footer
-        form(action = "javascript:gJ();")
-          input(type ="submit")
-        p  Special Thanks: Dr. Matias Carrasco Kind
-        p  Authors: Bowen Song, Jiayin Lu, Yijia Qian, Keye Zhang
-        p  We are math students from UIUC
+    .footer
+      form(action = "javascript:gJ();")
+        input(type ="submit")
+      p  Special Thanks: Dr. Matias Carrasco Kind
+      p  Authors: Bowen Song, Jiayin Lu, Yijia Qian, Keye Zhang
+      p  We are math students from UIUC
