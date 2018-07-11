@@ -38,6 +38,7 @@ function createCustomCell(ev){
 
     else if (state == 'dlink'){
         var link = createLink(left_pos, top_pos - 350, cell_name_);
+        graph.addCell(link);
         console.log('yes')
     }
 
@@ -53,9 +54,11 @@ function create_ano_Link(x, y){
     var link = new joint.dia.Link({
       attrs: {
          '.marker-target': { d: 'M 10 0 L 0 5 L 10 10 z' }},
+      smooth: true,
       source: {x: x, y:y},
-      target: {x: x + 200, y:y}                
-    })
+      target: {x: x + 200, y:y},
+      vertices: []             
+    });
     console.log(link);
     return link;
   }
@@ -68,9 +71,11 @@ function createLink(x, y, name){
       labels: [{position: .5, attrs: {
         text: {text: name}
       }}],
+      smooth: true,
       source: {x: x, y:y},
-      target: {x: x + 200, y:y}                
-    })
+      target: {x: x + 200, y:y},
+      vertices: []                
+    });
     console.log(link);
     return link;
   }

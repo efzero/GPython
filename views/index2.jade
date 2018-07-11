@@ -124,7 +124,7 @@ html
 
       script.
         console.log(document.getElementById('editor'));
-        console.log(document.getElementById('close_image').value)
+        //- console.log(document.getElementById('close_image').value)
 
         function changeval(){
         var a = prompt("enter the link name");
@@ -146,8 +146,10 @@ html
               defaultLink: new joint.dia.Link({
                 attrs: { '.marker-target': { d: 'M 10 0 L 0 5 L 10 10 z' }},
                 type: 'link',
-                labels: [{ position: .5, attrs: {
-                text: { text: "default"}}}],
+                //- labels: [{ position: .5, attrs: {
+                //- text: { text: "default"}}}],
+                smooth: true,
+                vertices: []
               }),
               validateConnection: function(cellViewS, magnetS, cellViewT, magnetT, end, linkView) {
             // Prevent linking from input ports.
@@ -174,21 +176,6 @@ html
             //-       elem.remove()
             //-   }
             //- })
-
-            function createLink(x, y, name){
-
-              var link = new joint.dia.Link({
-                attrs: {
-                   '.marker-target': { d: 'M 10 0 L 0 5 L 10 10 z' }},
-                labels: [{position: .5, attrs: {
-                  text: {text: name}
-                }}],
-                source: {x: x, y:y},
-                target: {x: x + 200, y:y}                
-              })
-              console.log(link);
-              return link;
-            }
 
             //function to create a cell that contains data from the data summary dropdown
             function createdataCell(){
@@ -304,6 +291,20 @@ html
             console.log(jSon);
             document.getElementById('hh').value = jSon;
             }
+
+            //- var link3 = new joint.dia.Link({
+            //-      attrs: {
+            //-             '.marker-target': { d: 'M 10 0 L 0 5 L 10 10 z' }},
+            //-     labels: [{position: .5, attrs: {
+            //-               text: {text: name}
+            //-             }}],
+            //-     smooth: true,
+            //-     source: {x: 440, y:100},
+            //-     target: {x: 740, y: 100},
+            //-     vertices: []});
+
+            //- graph.addCell(link3);
+            //- console.log('fuck')
 
           
 
