@@ -25,35 +25,89 @@ function createCustomCell(ev){
     $(".nametag").hide();
 
     var state = document.getElementById('display_option').value;
+    var color = $('#cell_color')[0].value;
+    console.log(color);
 
     console.log(state);
     if (state == 'circle'){
-        var cell = RFcell(cell_name_, left_pos, top_pos - 390);
+        var cell = RFcell(cell_name_, left_pos, top_pos - 390, color);
         graph.addCell(cell);
     }
     else if (state == 'rectangle'){
-        var cell  = RCcell(cell_name_, left_pos, top_pos - 390);
+        var cell  = RCcell(cell_name_, left_pos, top_pos - 390, color);
         graph.addCell(cell);
     }
 
-    else if (state == 'dlink'){
-        var link = createLink(left_pos, top_pos - 390, cell_name_);
+    else if (state == 'c_d_link'){
+        var link = create_ano_Link(left_pos, top_pos - 390, color);
         graph.addCell(link);
         console.log('yes')
     }
 
     else if (state == 'link'){
-        var link = create_ano_Link(left_pos, top_pos - 390);
+        var link = create_ano_st_Link(left_pos, top_pos - 390, color);
+        graph.addCell(link);
+    }
+
+    else if (state == 'w_c_d_link'){
+        var link = createLink(left_pos, top_pos - 390, cell_name_, color);
+        graph.addCell(link);
+    }
+
+    else if (state == 'w_d_link'){
+        var link = create_st_Link(left_pos, top_pos -390, cell_name_, color);
+        graph.addCell(link);
+    }
+
+    else if (state == 'line'){
+        var link = create_Line(left_pos, top_pos -390, false, cell_name_, color);
+        graph.addCell(link);
+    }
+
+    else if (state == 'c_line'){
+        var link = create_Line(left_pos, top_pos -390, true, cell_name_, color);
+        graph.addCell(link);
+    }
+
+    else if (state == 'w_line'){
+        var link = create_Line(left_pos, top_pos -390, false, cell_name_, color);
+        graph.addCell(link);
+    }
+
+    else if (state == 'w_c_line'){
+        var link = create_Line(left_pos, top_pos -390, true, cell_name_, color);
         graph.addCell(link);
     }
 
 
 }
-function create_ano_Link(x, y){
+
+function create_Line(x, y, smooth, name, color){
+    var link = new joint.dia.Link({
+        attrs: {},
+        labels: [{position: .5, attrs: {
+            text: {text: name}
+          }}],
+        smooth: smooth,
+        source: {x: x, y:y},
+        target: {x: x + 200, y:y},
+        vertices: []             
+      });
+    //   link.prop('attrs/text/text', name);
+      console.log(link);
+      return link;
+}
+
+
+
+
+
+function create_ano_Link(x, y, color){
 
     var link = new joint.dia.Link({
       attrs: {
          '.marker-target': { d: 'M 10 0 L 0 5 L 10 10 z' }},
+
       smooth: true,
       source: {x: x, y:y},
       target: {x: x + 200, y:y},
@@ -63,7 +117,7 @@ function create_ano_Link(x, y){
     return link;
   }
 
-function createLink(x, y, name){
+function createLink(x, y, name, color){
 
     var link = new joint.dia.Link({
       attrs: {
@@ -80,39 +134,59 @@ function createLink(x, y, name){
     return link;
   }
 
+  function create_ano_st_Link(x, y, color){
 
-function RFcell(name, x, y){
-    console.log(name);
-    // p_name2 = "iam\nbowen\nsong";
-    // p_name3 = "iam\nbowen\nsong";   
-    // console.log(p_name2 == name);
-    // console.log(name)
-    // console.log(p_name2)
-    // console.log(p_name2 == p_name3);
+    var link = new joint.dia.Link({
+      attrs: {
+         '.marker-target': { d: 'M 10 0 L 0 5 L 10 10 z' }},
+      source: {x: x, y:y},
+      target: {x: x + 200, y:y},
+      vertices: []             
+    });
+    console.log(link);
+    return link;
+  }
+
+  function create_st_Link(x,y, name, color){
+    var link = new joint.dia.Link({
+        attrs: {
+           '.marker-target': { d: 'M 10 0 L 0 5 L 10 10 z' }},
+        labels: [{position: .5, attrs: {
+          text: {text: name}
+        }}],
+        source: {x: x, y:y},
+        target: {x: x + 200, y:y},
+        vertices: []                
+      });
+      console.log(link);
+      return link;
+
+  }
+
+
+function RFcell(name, x, y, color){
     var circle = new joint.shapes.basic.Circle({})
     circle.position(x, y);
     circle.attr({
-      circle: {fill: 'white', 'magnet': true},
+      circle: {fill: color, 'magnet': true},
       text: {fill: 'black', text: name}
     });
     circle.size({width: 100, height: 100});
     return circle;
   }
 
-  function RCcell(name, x, y){
+
+  function RCcell(name, x, y, color){
     var rect = new joint.shapes.basic.Rect({});
     rect.position(x,y);
     rect.attr({
-      rect: {fill : 'white', 'magnet': true},
+      rect: {fill : color, 'magnet': true},
       text: {fill: 'black', text: name}
 
     });
     rect.size({width: 100, height: 100})
     return rect;
   }
-
-
-
 
 
 function upload(){
@@ -208,11 +282,13 @@ function change_state(ev){
             break;
         }
     }
+    console.log(buttons);
     
     var state = option.value;
     if (state == ev.value){
         option.value = 'NaN';
         ev.style.filter = 'brightness(1.0)';
+        ev.style.backgroundColor = 'transparent';
         console.log(ev.style);
     }
     else{
@@ -220,8 +296,10 @@ function change_state(ev){
         console.log(ev.style);
         buttons.forEach(element => {
             element.style.filter = 'brightness(1.0)';
+            // element.style.backgroundColor = 'none';
         });
         ev.style.filter = 'brightness(0.75)';
+        ev.style.backgroundColor = 'white';
     }
 }
 

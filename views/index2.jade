@@ -33,10 +33,19 @@ html
         p
           | Select the type of the cell you want to insert
         input(type = 'image', value = 'circle', src = '/images/circle.jpg', id = 'close_image1', onclick = 'javascript:change_state(this)')
-        input(type = 'image', value = 'rectangle', src = '/images/square.gif', id = 'close_image2', onclick = 'javascript:change_state(this)')
-        input(type = 'image', value = 'dlink', src = '/images/link.png', id = 'close_image3', onclick = 'javascript:change_state(this)')
+        input(type = 'image', value = 'rectangle', src = '/images/rectangle.png', id = 'close_image2', onclick = 'javascript:change_state(this)')
+        input(type = 'image', value = 'c_d_link', src = '/images/link.png', id = 'close_image3', onclick = 'javascript:change_state(this)')
         input(type = 'image', value = 'link', src = '/images/line.png', id = 'close_image4',onclick = 'javascript:change_state(this)')
-          
+        input(type = 'image', value = 'w_c_d_link', src = '/images/c_d_link.png', id = 'close_image5',onclick = 'javascript:change_state(this)')
+        input(type = 'image', value = 'w_d_link', src = '/images/d_link.jpg', id = 'close_image6',onclick = 'javascript:change_state(this)')
+        input(type = 'image', value = 'line', src = '/images/st_line.png', id = 'close_image7',onclick = 'javascript:change_state(this)')
+        input(type = 'image', value = 'c_line', src = '/images/curved_line.jpg', id = 'close_image8',onclick = 'javascript:change_state(this)')
+        input(type = 'image', value = 'w_line', src = '/images/st_line.png', id = 'close_image9',onclick = 'javascript:change_state(this)')
+        input(type = 'image', value = 'w_c_link', src = '/images/st_line.png', id = 'close_image10',onclick = 'javascript:change_state(this)')
+        p
+          | Select the color of the cell you want
+
+        input(id = 'cell_color', name="Color_Picker", type="color") 
 
       .nametag
         form(name = 'cell_name', action = "javascript:void(0)", id = 'change_cell_name')
@@ -163,13 +172,10 @@ html
         dragElement(document.getElementById("editor"));
 
       script.
-        console.log(document.getElementById('editor'));
-        //- console.log(document.getElementById('close_image').value)
-
         function changeval(){
         var a = prompt("enter the link name");
         document.getElementById('links').value = a;
-        console.log(document.getElementById('links').value);
+
         } 
       .col3
         #paper.paper
@@ -186,9 +192,9 @@ html
               defaultLink: new joint.dia.Link({
                 attrs: { '.marker-target': { d: 'M 10 0 L 0 5 L 10 10 z' }},
                 type: 'link',
-                //- labels: [{ position: .5, attrs: {
-                //- text: { text: "default"}}}],
-                smooth: true,
+                labels: [{position: .5, attrs: {
+                  text: {text: ''}
+                }}],
                 vertices: []
               }),
               validateConnection: function(cellViewS, magnetS, cellViewT, magnetT, end, linkView) {
@@ -283,14 +289,22 @@ html
             //double click on the cell to change the data inside the cell from the dropdown menu
             //double click on the link to change the name of the link
             paper.on('cell:pointerdblclick', function(element, ev, x,y){
+              //- console.log('yes');
+              var cell = element.model;
+              var name = cell.get('attrs').text;
+              var labels = cell.get('labels');
+              if (name == undefined && labels == undefined){
+                name = cell.get('attrs')['.label'].text;
+              }
+              else if (name == undefined){
+                name = labels[0].attrs.text.text;
+              }
+              else{
+                name = name.text;
+              }
+              $('.cell_editor').children('form')[0]['enter_name'].value = name;
               $('.cell_editor').css({top: y + 400  + 'px', left: x +80 + 'px', position: 'absolute'});
               $('.cell_editor').show();
-              
-              var cell = element.model;
-              //- console.log(cell.id)
-
-              console.log(cell.get('attrs'));
-              console.log(currentCellId);
               currentCellId = cell.id;
             //- console.log(cell.get('attrs')['.label'] == undefined);
               //- if (cell.get('attrs') != undefined){
@@ -339,20 +353,6 @@ html
             console.log(jSon);
             document.getElementById('hh').value = jSon;
             }
-
-            //- var link3 = new joint.dia.Link({
-            //-      attrs: {
-            //-             '.marker-target': { d: 'M 10 0 L 0 5 L 10 10 z' }},
-            //-     labels: [{position: .5, attrs: {
-            //-               text: {text: name}
-            //-             }}],
-            //-     smooth: true,
-            //-     source: {x: 440, y:100},
-            //-     target: {x: 740, y: 100},
-            //-     vertices: []});
-
-            //- graph.addCell(link3);
-            //- console.log('fuck')
 
           
 
