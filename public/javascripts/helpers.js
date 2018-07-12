@@ -30,52 +30,52 @@ function createCustomCell(ev){
 
     console.log(state);
     if (state == 'circle'){
-        var cell = RFcell(cell_name_, left_pos, top_pos - 390, color);
+        var cell = RFcell(cell_name_, left_pos, top_pos - 410, color);
         graph.addCell(cell);
     }
     else if (state == 'rectangle'){
-        var cell  = RCcell(cell_name_, left_pos, top_pos - 390, color);
+        var cell  = RCcell(cell_name_, left_pos, top_pos - 410, color);
         graph.addCell(cell);
     }
 
     else if (state == 'c_d_link'){
-        var link = create_ano_Link(left_pos, top_pos - 390, color);
+        var link = create_ano_Link(left_pos, top_pos - 410, color);
         graph.addCell(link);
         console.log('yes')
     }
 
     else if (state == 'link'){
-        var link = create_ano_st_Link(left_pos, top_pos - 390, color);
+        var link = create_ano_st_Link(left_pos, top_pos - 410, color);
         graph.addCell(link);
     }
 
     else if (state == 'w_c_d_link'){
-        var link = createLink(left_pos, top_pos - 390, cell_name_, color);
+        var link = createLink(left_pos, top_pos - 410, cell_name_, color);
         graph.addCell(link);
     }
 
     else if (state == 'w_d_link'){
-        var link = create_st_Link(left_pos, top_pos -390, cell_name_, color);
+        var link = create_st_Link(left_pos, top_pos -410, cell_name_, color);
         graph.addCell(link);
     }
 
     else if (state == 'line'){
-        var link = create_Line(left_pos, top_pos -390, false, cell_name_, color);
+        var link = create_Line(left_pos, top_pos -410, false, cell_name_, color);
         graph.addCell(link);
     }
 
     else if (state == 'c_line'){
-        var link = create_Line(left_pos, top_pos -390, true, cell_name_, color);
+        var link = create_Line(left_pos, top_pos -410, true, cell_name_, color);
         graph.addCell(link);
     }
 
     else if (state == 'w_line'){
-        var link = create_Line(left_pos, top_pos -390, false, cell_name_, color);
+        var link = create_Line(left_pos, top_pos -410, false, cell_name_, color);
         graph.addCell(link);
     }
 
     else if (state == 'w_c_line'){
-        var link = create_Line(left_pos, top_pos -390, true, cell_name_, color);
+        var link = create_Line(left_pos, top_pos -410, true, cell_name_, color);
         graph.addCell(link);
     }
 

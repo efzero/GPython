@@ -45,7 +45,7 @@ html
         p
           | Select the color of the cell you want
 
-        input(id = 'cell_color', name="Color_Picker", type="color") 
+        input(id = 'cell_color', name="Color_Picker", type="color", value = "#FFFFFF") 
 
       .nametag
         form(name = 'cell_name', action = "javascript:void(0)", id = 'change_cell_name')
@@ -55,7 +55,7 @@ html
         form(name = 'cell_editor', action = "javascript:void(0)")
           p
             | Change the width of the cell
-          input(type = "range", value = "50", min = "1", max = "200", class = 'slider', name = 'cell_size')
+          input(type = "range", value = "100", min = "1", max = "200", class = 'slider', name = 'cell_size')
           p
             | Change the color of the cell (select from graph editor)
           textarea(name = "enter_name", placeholder = 'change the name of the cell', class = 'textbox')
@@ -91,7 +91,10 @@ html
                   | In order to create a cell, first click on the graph editor
                 li
                   | Then select the type of cell you want to create by clicking the icon on the graph editor, 
-                  | After that system will ask you to enter the name of the cell, after you finished typing the name press enter
+                li
+                  | After that click on the 
+                  b blank paper below buttons
+                  |  system will ask you to enter the name of the cell, after you finished typing the name press enter
                 li
                   | In order to change the attribute of a cell, double click on the cell, an editor will appear.
                 li
@@ -142,6 +145,15 @@ html
             else{
               cell.prop('attrs/text/text', name);
               cell.size({width: parseFloat(cell_editor.cell_size.value), height: parseFloat(cell_editor.cell_size.value)});
+              if (cell.prop('attrs/circle') != undefined){
+                var color = $('#cell_color')[0].value;
+                cell.prop('attrs/circle/fill', color);
+              }
+              else if (cell.prop('attrs/rect') != undefined){
+                var color = $('#cell_color')[0].value;
+                cell.prop('attrs/rect/fill', color);
+              }
+
             }
           }
 
@@ -303,7 +315,7 @@ html
                 name = name.text;
               }
               $('.cell_editor').children('form')[0]['enter_name'].value = name;
-              $('.cell_editor').css({top: y + 400  + 'px', left: x +80 + 'px', position: 'absolute'});
+              $('.cell_editor').css({top: y + 450  + 'px', left: x +80 + 'px', position: 'absolute'});
               $('.cell_editor').show();
               currentCellId = cell.id;
             //- console.log(cell.get('attrs')['.label'] == undefined);
@@ -338,7 +350,7 @@ html
               console.log('y' + y)
               var state = document.getElementById('display_option');
               console.log(state.value);
-              $('.nametag').css({top: y + 400  + 'px', left: x + 'px', position: 'absolute'});
+              $('.nametag').css({top: y + 450  + 'px', left: x + 'px', position: 'absolute'});
               $('.nametag').show();
 
               console.log($('.nametag').css('z-index'));
