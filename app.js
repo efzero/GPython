@@ -73,7 +73,7 @@ app.use(function(err, req, res, next) {
 
 var server = http.createServer(app);
 
-server.listen(8888, '0.0.0.0', function(){
+server.listen(3000, '0.0.0.0', function(){
   console.log("Server running at http://localhost:8080");
 });
 

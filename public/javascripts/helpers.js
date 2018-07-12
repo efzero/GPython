@@ -28,22 +28,22 @@ function createCustomCell(ev){
 
     console.log(state);
     if (state == 'circle'){
-        var cell = RFcell(cell_name_, left_pos, top_pos - 350);
+        var cell = RFcell(cell_name_, left_pos, top_pos - 390);
         graph.addCell(cell);
     }
     else if (state == 'rectangle'){
-        var cell  = RCcell(cell_name_, left_pos, top_pos - 350);
+        var cell  = RCcell(cell_name_, left_pos, top_pos - 390);
         graph.addCell(cell);
     }
 
     else if (state == 'dlink'){
-        var link = createLink(left_pos, top_pos - 350, cell_name_);
+        var link = createLink(left_pos, top_pos - 390, cell_name_);
         graph.addCell(link);
         console.log('yes')
     }
 
     else if (state == 'link'){
-        var link = create_ano_Link(left_pos, top_pos - 350);
+        var link = create_ano_Link(left_pos, top_pos - 390);
         graph.addCell(link);
     }
 
@@ -82,11 +82,18 @@ function createLink(x, y, name){
 
 
 function RFcell(name, x, y){
+    console.log(name);
+    // p_name2 = "iam\nbowen\nsong";
+    // p_name3 = "iam\nbowen\nsong";   
+    // console.log(p_name2 == name);
+    // console.log(name)
+    // console.log(p_name2)
+    // console.log(p_name2 == p_name3);
     var circle = new joint.shapes.basic.Circle({})
     circle.position(x, y);
     circle.attr({
       circle: {fill: 'white', 'magnet': true},
-      text: {fill: 'black', text:name}
+      text: {fill: 'black', text: name}
     });
     circle.size({width: 100, height: 100});
     return circle;

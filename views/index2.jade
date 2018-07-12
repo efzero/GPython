@@ -24,6 +24,10 @@ html
         p
           | This is an interactive graphing tool for running Python scripts and analyzing data
     .container
+      //- p
+      //-   | Cell size selector
+
+      //- input(type="range" min="1" max="100" value="50" class="slider" id="myRange", onclick = 'javasciprt:console.log(this.value)')
 
       #editor.editor
         p
@@ -32,12 +36,23 @@ html
         input(type = 'image', value = 'rectangle', src = '/images/square.gif', id = 'close_image2', onclick = 'javascript:change_state(this)')
         input(type = 'image', value = 'dlink', src = '/images/link.png', id = 'close_image3', onclick = 'javascript:change_state(this)')
         input(type = 'image', value = 'link', src = '/images/line.png', id = 'close_image4',onclick = 'javascript:change_state(this)')
+          
+
       .nametag
         form(name = 'cell_name', action = "javascript:void(0)", id = 'change_cell_name')
-          | Enter the name of the cell
-          input(type = 'text',  name = 'enter_name')
+          textarea(name = 'enter_name', placeholder = 'Enter the name of the cell')
           input(type = 'submit', value = 'Enter', onclick = 'javascript:createCustomCell(this)')
-      
+      .cell_editor
+        form(name = 'cell_editor', action = "javascript:void(0)")
+          p
+            | Change the width of the cell
+          input(type = "range", value = "50", min = "1", max = "200", class = 'slider', name = 'cell_size')
+          p
+            | Change the color of the cell (select from graph editor)
+          textarea(name = "enter_name", placeholder = 'change the name of the cell', class = 'textbox')
+          input(type = "submit", value = "confirm", class = 'button', onclick = 'javascript: changeCellName()')
+          input(type = "submit", value = "close", class = 'button', onclick = "javascript: $('.cell_editor').hide();")
+
       .col
         .col1
           form(name='python', action = 'javascript:upload()')
@@ -55,12 +70,24 @@ html
             //- input(type='file', name='foo', size='50' )
             input(type='submit', value='Upload File' class = 'button'  onclick = 'seek();')
             span #{message}
-          form(action='/index', method='POST', name='hello', onsubmit='savejson();')
+          form(name='hello', onsubmit='savejson();')
             | Paste your JSON file here: 
             input#hh(type='text', name='JSON file')
             input(type='submit', name='Run', value='Run', class = 'button' )
             p
-              | Click on the paper below to create a cell, right click to delete the cell. Click Run to run your graph, or you can paste the json file of a graph above and run that graph.
+              h4
+                | Operating Instructions:
+              ul
+                li
+                  | In order to create a cell, first click on the graph editor
+                li
+                  | Then select the type of cell you want to create by clicking the icon on the graph editor, 
+                  | After that system will ask you to enter the name of the cell, after you finished typing the name press enter
+                li
+                  | In order to change the attribute of a cell, double click on the cell, an editor will appear.
+                li
+                  | Select the size and enter the new name of your cell, then click "confirm"
+
           form(action = "javascript:gJ();")
             input(type ="submit" value ='Run' class = 'button')
           form(action = "javascript:loadRegression();")
@@ -95,6 +122,19 @@ html
                 url = $form.attr('action');
             var posting = $.post(url, {name: $('#selection.val()')})
           });
+
+          function changeCellName(){
+            name = cell_editor.enter_name.value;
+            var cell = graph.getCell(currentCellId);
+            if(cell.isLink()){
+              console.log('link');
+              cell.prop('attrs/text/text', name);
+            }
+            else{
+              cell.prop('attrs/text/text', name);
+              cell.size({width: parseFloat(cell_editor.cell_size.value), height: parseFloat(cell_editor.cell_size.value)});
+            }
+          }
 
           function seek(){
             $('#hahaha').show();
@@ -185,6 +225,7 @@ html
                 graph.addCell(cell);
 
             }
+
             
 
             //function to return a datacell given the dtata and the name of the cell
@@ -233,6 +274,7 @@ html
               var cell = createOutputCell(name);
               graph.addCell(cell);
             }
+            var currentCellId  ='';
 
 
 
@@ -241,26 +283,32 @@ html
             //double click on the cell to change the data inside the cell from the dropdown menu
             //double click on the link to change the name of the link
             paper.on('cell:pointerdblclick', function(element, ev, x,y){
+              $('.cell_editor').css({top: y + 400  + 'px', left: x +80 + 'px', position: 'absolute'});
+              $('.cell_editor').show();
+              
               var cell = element.model;
+              //- console.log(cell.id)
 
               console.log(cell.get('attrs'));
+              console.log(currentCellId);
+              currentCellId = cell.id;
             //- console.log(cell.get('attrs')['.label'] == undefined);
-              if (cell.get('attrs') != undefined){
-                console.log('changed');
-                var text2 = prompt("please enter the cell's name")
-                let string = $('#selection').val();
-                //- console.log(string);
-                //- console.log(cell.get('attrs').text);
-                cell.prop('attrs/text/text', text2);
-                if (cell.get('data') != null || cell.get('data') != undefined){
-                  cell.prop('data', string);
-                  console.log('changed');
-                }
-              }
-              else {
-                var text2 = prompt("please enter the link's name")
-                cell.prop('labels/0/attrs/text/text', text2);
-                }
+              //- if (cell.get('attrs') != undefined){
+              //-   console.log('changed');
+              //-   var text2 = prompt("please enter the cell's name")
+              //-   let string = $('#selection').val();
+              //-   //- console.log(string);
+              //-   //- console.log(cell.get('attrs').text);
+              //-   cell.prop('attrs/text/text', text2);
+              //-   if (cell.get('data') != null || cell.get('data') != undefined){
+              //-     cell.prop('data', string);
+              //-     console.log('changed');
+              //-   }
+              //- }
+              //- else {
+              //-   var text2 = prompt("please enter the link's name")
+              //-   cell.prop('labels/0/attrs/text/text', text2);
+              //-   }
             });
             
             //right click on the cell to delete the cell
@@ -276,7 +324,7 @@ html
               console.log('y' + y)
               var state = document.getElementById('display_option');
               console.log(state.value);
-              $('.nametag').css({top: y + 360  + 'px', left: x + 'px', position: 'absolute'});
+              $('.nametag').css({top: y + 400  + 'px', left: x + 'px', position: 'absolute'});
               $('.nametag').show();
 
               console.log($('.nametag').css('z-index'));
