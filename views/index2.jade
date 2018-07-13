@@ -12,6 +12,10 @@ html
     title GPython
     link(rel='stylesheet', type='text/css', href='/stylesheets/joint.css')
     link(rel='stylesheet', type='text/css', href='/stylesheets/mycss.css')
+    <script type="text/javascript" src="http://canvg.github.io/canvg/rgbcolor.js"></script> 
+    <script type="text/javascript" src="http://canvg.github.io/canvg/StackBlur.js"></script>
+    <script type="text/javascript" src="http://canvg.github.io/canvg/canvg.js"></script> 
+    script(src = '/javascripts/Filesaver.js')
     script(src='/javascripts/jquery.min.js')
     script(src='/javascripts/lodash.min.js')
     script(src='/javascripts/backbone-min.js')
@@ -23,6 +27,8 @@ html
       .fonts
         p
           | This is an interactive graphing tool for running Python scripts and analyzing data
+
+        canvas(width = "2000", height= "1000", style=  "display: none", id = "canvas")
     .container
       //- p
       //-   | Cell size selector
@@ -104,8 +110,6 @@ html
             input(type ="submit" value ='Run' class = 'button')
           form(action = "javascript:loadRegression();")
             input(type = 'submit' value = 'Load Regression Template' class = 'button')
-          form(action = "javascript:save_graph(graph);")
-            input(type = 'submit' value = 'Save' class = 'button')
 
           input(type = 'submit', value = 'NaN', id = 'display_option', style = 'display:none')
 
@@ -113,7 +117,7 @@ html
         .col2
           form(action = "javascript:show();")
             input(id = 'hahaha', type = 'submit', name = 'why2', value = 'show the summary of the dataset', class = 'button')
-          .helo
+          p 
             | The data summary will be shown here
           .dropDown(style= 'display: none;')
             form(name = 'drop', id = 'selectform' action = '/')
@@ -124,6 +128,11 @@ html
             input(type = 'submit', name = 'ha', value = 'create an output cell', class = 'button3')
 
           input(id = 'edit', type = 'submit', name = 'na', value = 'show the graph editor', class = 'button', onclick = 'javascript:editor()')
+          form(action = "javascript:save_json(graph);")
+            input(type = 'submit' value = 'Save JSON' class = 'button')
+
+          input(type = 'submit', value = 'Save SVG', class = 'button', onclick = "javascript: save_svg()")
+          input(type = 'submit', value = 'Save PNG', class = 'button', onclick = "javascript: save_png()")
           span(id = 'infodata')  #{datainfo} 
 
         script. 
@@ -143,7 +152,7 @@ html
               cell.prop('attrs/text/text', name);
             }
             else{
-              cell.prop('attrs/text/text', name);
+              cell.prop('attrs/text/text', name + ' ');
               cell.size({width: parseFloat(cell_editor.cell_size.value), height: parseFloat(cell_editor.cell_size.value)});
               if (cell.prop('attrs/circle') != undefined){
                 var color = $('#cell_color')[0].value;
@@ -217,11 +226,11 @@ html
             // Prevent linking to input ports.
                 return magnetT && magnetT.getAttribute('type') === 'input';
               },
-            // validateMagnet: function(cellView, magnet) {
-            //     // Note that this is the default behaviour. Just showing it here for reference.
-            //     // Disable linking interaction for magnets marked as passive (see below `.inPorts circle`).
-            //     return magnet.getAttribute('magnet') !== 'passive';
-            // }
+              validateMagnet: function(cellView, magnet) {
+                 // Note that this is the default behaviour. Just showing it here for reference.
+                 // Disable linking interaction for magnets marked as passive (see below `.inPorts circle`).
+                 return magnet.getAttribute('magnet') !== 'passive';
+              },
               validateConnection: function(sourceView, sourceMagnet, targetView, targetMagnet) {
                 return sourceMagnet != targetMagnet;
               }
@@ -316,6 +325,7 @@ html
               }
               $('.cell_editor').children('form')[0]['enter_name'].value = name;
               $('.cell_editor').css({top: y + 450  + 'px', left: x +80 + 'px', position: 'absolute'});
+              console.log('yes');
               $('.cell_editor').show();
               currentCellId = cell.id;
             //- console.log(cell.get('attrs')['.label'] == undefined);

@@ -1,19 +1,74 @@
-function save_graph(data){
-    // var data = { x: 42, s: "hello, world", d: new Date() },
-    fileName = prompt("please enter the file name you want to save as");
-    // saveData(data, fileName);
-    var a = document.createElement("a");
-    a.style = "display: none";
-    var json = JSON.stringify(data),
-    blob = new Blob([json], {type: "octet/stream"}),
-    url = window.URL.createObjectURL(blob);
-    console.log(url);
-    a.href = url;
-    a.download = fileName;
-    a.click();
-    window.URL.revokeObjectURL(url);
+function save_json(data){
+    var json = JSON.stringify(data);
+    blob = new Blob([json], {type: "octet/stream"});
+    saveAs(new Blob([json], {type: "octet/stream"}), "graph.json")
 
 }
+
+function save_svg(){
+    $(".marker-arrowhead").css("display", "none");
+    $(".tool-remove").css("display", "none");
+    $(".tool-options").css("display", "none");
+    $(".marker-vertices").css("display", "none");
+    $(".link-tools").css("display", "none");
+    $(".connection-wrap").css("fill", "none");
+    $(".connection").css("fill", "none");
+    var svgDoc = paper.svg;
+    var serializer=  new XMLSerializer();
+    var svgString = serializer.serializeToString(svgDoc);
+    saveAs(new Blob([svgString], {type:"application/svg+xml"}), "graph.svg") ;
+    $(".tool-remove").show()
+    $(".tool-options").show();
+    $(".link-tools").show();
+    console.log('done');
+
+}
+
+function save_png(){
+    $(".marker-arrowhead").css("display", "none");
+    $(".tool-remove").css("display", "none");
+    $(".tool-options").css("display", "none");
+    $(".marker-vertices").css("display", "none");
+    $(".link-tools").css("display", "none");
+    $(".connection-wrap").css("fill", "none");
+    $(".connection").css("fill", "none")
+
+    // var data = { x: 42, s: "hello, world", d: new Date() },
+    // fileName = prompt("please enter the file name you want to save as");
+    // // saveData(data, fileName);
+    // var a = document.createElement("a");
+    // a.style = "display: none";
+
+    var svgDoc = paper.svg;
+    var serializer=  new XMLSerializer();
+    var svgString = serializer.serializeToString(svgDoc);
+    console.log(svgString);
+    // saveAs(new Blob([svgString], {type:"application/svg+xml"}), "graph.svg") ;
+    encodedData = window.btoa(svgString);
+    var canvas = document.getElementById('canvas');
+    var ctx = canvas.getContext('2d');
+    console.log(ctx);
+    ctx.drawSvg('data:image/svg+xml;base64,' + encodedData, 0, 0);
+    canvas.toBlob(function(blob) {
+        saveAs(blob, "MyCanvas.png");
+    });
+
+    $(".tool-remove").show()
+    $(".tool-options").show();
+    $(".link-tools").show();
+    console.log('done');
+
+    // var json = JSON.stringify(data),
+    // blob = new Blob([json], {type: "octet/stream"}),
+    // url = window.URL.createObjectURL(blob);
+    // console.log(url);
+    // a.href = url;
+    // a.download = fileName;
+    // a.click();
+    // window.URL.revokeObjectURL(url);
+
+}
+
 
 
 function createCustomCell(ev){
@@ -86,7 +141,7 @@ function create_Line(x, y, smooth, name, color){
     var link = new joint.dia.Link({
         attrs: {},
         labels: [{position: .5, attrs: {
-            text: {text: name}
+            text: {text: name, 'font-size': 17}
           }}],
         smooth: smooth,
         source: {x: x, y:y},
@@ -123,7 +178,7 @@ function createLink(x, y, name, color){
       attrs: {
          '.marker-target': { d: 'M 10 0 L 0 5 L 10 10 z' }},
       labels: [{position: .5, attrs: {
-        text: {text: name}
+        text: {text: name, 'font-size': 17}
       }}],
       smooth: true,
       source: {x: x, y:y},
@@ -152,7 +207,7 @@ function createLink(x, y, name, color){
         attrs: {
            '.marker-target': { d: 'M 10 0 L 0 5 L 10 10 z' }},
         labels: [{position: .5, attrs: {
-          text: {text: name}
+          text: {text: name, 'font-size': 17}
         }}],
         source: {x: x, y:y},
         target: {x: x + 200, y:y},
@@ -168,8 +223,8 @@ function RFcell(name, x, y, color){
     var circle = new joint.shapes.basic.Circle({})
     circle.position(x, y);
     circle.attr({
-      circle: {fill: color, 'magnet': true},
-      text: {fill: 'black', text: name}
+      circle: {fill: color, 'magnet': 'passive'},
+      text: {fill: 'black', text: name, 'font-size': 17}
     });
     circle.size({width: 100, height: 100});
     return circle;
@@ -180,8 +235,8 @@ function RFcell(name, x, y, color){
     var rect = new joint.shapes.basic.Rect({});
     rect.position(x,y);
     rect.attr({
-      rect: {fill : color, 'magnet': true},
-      text: {fill: 'black', text: name}
+      rect: {fill : color, 'magnet': 'passive'},
+      text: {fill: 'black', text: name, 'font-size': 17}
 
     });
     rect.size({width: 100, height: 100})
