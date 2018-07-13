@@ -53,6 +53,7 @@ html
 
         input(id = 'cell_color', name="Color_Picker", type="color", value = "#FFFFFF") 
 
+
       .nametag
         form(name = 'cell_name', action = "javascript:void(0)", id = 'change_cell_name')
           textarea(name = 'enter_name', placeholder = 'Enter the name of the cell')
@@ -67,6 +68,7 @@ html
           textarea(name = "enter_name", placeholder = 'change the name of the cell', class = 'textbox')
           input(type = "submit", value = "confirm", class = 'button', onclick = 'javascript: changeCellName()')
           input(type = "submit", value = "close", class = 'button', onclick = "javascript: $('.cell_editor').hide();")
+          input(type = "submit", value = "clone the cell", class = 'button', onclick = "javascript: clone_cell()")
 
       .col
         .col1
@@ -144,6 +146,32 @@ html
             var posting = $.post(url, {name: $('#selection.val()')})
           });
 
+          function clone_cell(){
+            var cell = graph.getCell(currentCellId);
+            var new_cell = cell.clone();
+            if (cell.isLink()){
+              if (cell.prop('source/id') != undefined){
+                source_cell = graph.getCell(cell.prop('source/id'));
+                target_cell = graph.getCell(cell.prop('target/id'));
+                console.log('source cell');
+                console.log(source_cell);
+                new_cell.prop('source', {x: source_cell.position().x + 100, y: source_cell.position().y + 100});
+                new_cell.prop('target', {x: target_cell.position().x + 100, y: target_cell.position().y + 100});
+              }
+              else{
+                console.log('re positioning')
+                new_cell.prop('source', {x: cell.prop('source/x') + 50, y: cell.prop('source/y') + 50});
+                new_cell.prop('target', {x: cell.prop('target/x') + 50, y: cell.prop('target/y') + 50});
+              }
+            }
+            else{
+              console.log('repositioning');
+              console.log(cell.position().x)
+              new_cell.position(cell.position().x +25, cell.position().y + 25);
+            }
+            graph.addCell(new_cell);
+          }
+
           function changeCellName(){
             name = cell_editor.enter_name.value;
             var cell = graph.getCell(currentCellId);
@@ -152,7 +180,7 @@ html
               cell.prop('attrs/text/text', name);
             }
             else{
-              cell.prop('attrs/text/text', name + ' ');
+              cell.prop('attrs/text/text', name);
               cell.size({width: parseFloat(cell_editor.cell_size.value), height: parseFloat(cell_editor.cell_size.value)});
               if (cell.prop('attrs/circle') != undefined){
                 var color = $('#cell_color')[0].value;
