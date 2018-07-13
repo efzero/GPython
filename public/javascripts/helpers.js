@@ -44,7 +44,8 @@ function save_png(){
     var svgString = serializer.serializeToString(svgDoc);
     console.log(svgString);
     // saveAs(new Blob([svgString], {type:"application/svg+xml"}), "graph.svg") ;
-    encodedData = window.btoa(svgString);
+    encodedData = window.btoa(unescape(encodeURIComponent(svgString)));
+    // encodedData = svgString;
     var canvas = document.getElementById('canvas');
     var ctx = canvas.getContext('2d');
     console.log(ctx);
@@ -197,6 +198,7 @@ function createLink(x, y, name, color){
       source: {x: x, y:y},
       target: {x: x + 200, y:y},
       vertices: []             
+      
     });
     console.log(link);
     return link;
