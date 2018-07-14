@@ -51,7 +51,12 @@ html
         p
           | Select the color of the cell you want
 
-        input(id = 'cell_color', name="Color_Picker", type="color", value = "#FFFFFF") 
+        span
+          | cell color
+        input(id = 'cell_color', name="Color_Picker", type="color", value = "#FFFFFF", style = "display:inline") 
+        span
+          | font color
+        input(id = 'cell_color2', name="font_color_Picker", type="color", value = "#000000", style = "display:inline") 
 
 
       .nametag
@@ -61,11 +66,21 @@ html
       .cell_editor
         form(name = 'cell_editor', action = "javascript:void(0)")
           p
-            | Change the width of the cell
+            | Change the size of the cell
           input(type = "range", value = "100", min = "1", max = "200", class = 'slider', name = 'cell_size')
+          #colorchanger(style = 'display:none')
+            p
+              | Change the color of the cell (select from graph editor)
+          input(type = "checkbox", name = "color", onchange = 'javascript:if (this.checked){$("#colorchanger").show();}else{$("#colorchanger").hide();}') 
+          span
+            | Do you want to change the color?
           p
-            | Change the color of the cell (select from graph editor)
+            | Change the font size
+          input(type = "range", value = "15", min = "1", max = "30", class = 'slider', name = 'font_size')
+          p
+            | Change the name of the cell
           textarea(name = "enter_name", placeholder = 'change the name of the cell', class = 'textbox')
+          
           input(type = "submit", value = "confirm", class = 'button', onclick = 'javascript: changeCellName()')
           input(type = "submit", value = "close", class = 'button', onclick = "javascript: $('.cell_editor').hide();")
           input(type = "submit", value = "clone the cell", class = 'button', onclick = "javascript: clone_cell()")
@@ -112,8 +127,9 @@ html
             input(type ="submit" value ='Run' class = 'button')
           form(action = "javascript:loadRegression();")
             input(type = 'submit' value = 'Load Regression Template' class = 'button')
-
           input(type = 'submit', value = 'NaN', id = 'display_option', style = 'display:none')
+
+          input(type = 'submit',value = 'build tree', onclick = 'javascript:grow();', class = 'button')
 
           
         .col2
@@ -135,6 +151,7 @@ html
 
           input(type = 'submit', value = 'Save SVG', class = 'button', onclick = "javascript: save_svg()")
           input(type = 'submit', value = 'Save PNG', class = 'button', onclick = "javascript: save_png()")
+          input(type = 'submit', value = 'Clear the graph', class = 'button', onclick = "javascript: graph.clear()", style = 'display:block')
           span(id = 'infodata')  #{datainfo} 
 
         script. 
@@ -144,7 +161,7 @@ html
             var $form = $(this),
                 url = $form.attr('action');
             var posting = $.post(url, {name: $('#selection.val()')})
-          });
+          });10
 
           function clone_cell(){
             var cell = graph.getCell(currentCellId);
@@ -183,14 +200,30 @@ html
               cell.prop('attrs/text/text', name);
               cell.size({width: parseFloat(cell_editor.cell_size.value), height: parseFloat(cell_editor.cell_size.value)});
               if (cell.prop('attrs/circle') != undefined){
-                var color = $('#cell_color')[0].value;
-                cell.prop('attrs/circle/fill', color);
+                
+                var checked = cell_editor.color.checked;
+                if (checked){
+                  var color = $('#cell_color')[0].value;
+                  var text_color = $('#cell_color2')[0].value;
+                  cell.prop('attrs/circle/fill', color);
+                  cell.prop('attrs/text/fill', text_color);
+                }
+
+                cell.prop('attrs/text/font-size', cell_editor.font_size.value);
+                //- cell.prop('attrs/circle/fill', color);
               }
+
               else if (cell.prop('attrs/rect') != undefined){
                 var color = $('#cell_color')[0].value;
                 cell.prop('attrs/rect/fill', color);
+                if (checked){
+                  var color = $('#cell_color')[0].value;
+                  var text_color = $('#cell_color2')[0].value;
+                  cell.prop('attrs/rect/fill', color);
+                  cell.prop('attrs/text/fill', text_color);
+                }
+                cell.prop('attrs/text/font-size', cell_editor.font_size.value);
               }
-
             }
           }
 

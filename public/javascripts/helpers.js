@@ -231,7 +231,7 @@ function RFcell(name, x, y, color){
     circle.size({width: 100, height: 100});
     return circle;
   }
-
+1
 
   function RCcell(name, x, y, color){
     var rect = new joint.shapes.basic.Rect({});
@@ -358,6 +358,45 @@ function change_state(ev){
         ev.style.filter = 'brightness(0.75)';
         ev.style.backgroundColor = 'white';
     }
+}
+
+
+
+function growTree(x, y, node, dist, color, maxlayers){
+    if (dist > maxlayers){
+        return
+    }
+    var rf_left = RFcell('', x + 300*1/dist, y + 200, color)
+    var rf_right = RFcell('', x - 300*1/dist, y + 200, color)
+    graph.addCell(rf_left);
+    graph.addCell(rf_right);
+
+    var link_left = create_st_Link(x, y, '', color)
+    var link_right = create_st_Link(x,y, '', color)
+
+    link_left.prop('source/id', node.id);
+    link_left.prop('target/id', rf_left.id);
+    link_right.prop('source/id', node.id);
+    link_right.prop('target/id', rf_right.id);
+    graph.addCell(link_left);
+    graph.addCell(link_right);
+    setTimeout(function(){growTree(x + 300*1/dist, y + 200, rf_left, dist + 1, color, maxlayers);}, 500);
+    setTimeout(function(){growTree(x - 300*1/dist, y + 200, rf_right, dist + 1, color, maxlayers);}, 750);
+
+}
+
+
+function grow(){
+    layers = parseInt(prompt('enter the number of layers'))
+    if (layers > 6){
+        alert('too many layers');
+        return;
+    }
+    x = 700, y = 50;
+    color =  $('#cell_color')[0].value;
+    node = RFcell('', x,y, color);
+    graph.addCell(node);
+    growTree(x , y, node, 1, color, layers)
 }
 
 // var saveData = (function () {
