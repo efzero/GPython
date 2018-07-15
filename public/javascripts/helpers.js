@@ -388,8 +388,12 @@ function growTree(x, y, node, dist, color, maxlayers){
 
 function grow(){
     layers = parseInt(prompt('enter the number of layers'))
-    if (layers > 6){
-        alert('too many layers');
+    if (isNaN(layers)){
+        alert('input must be an integer');
+        return;
+    }
+    if (layers > 6 || layers < 0){
+        alert('illegal numbers of layers');
         return;
     }
     x = 700, y = 50;
